@@ -30,7 +30,6 @@ class ORMMappingTest {
     fun `todas as entidas devem estar com os relacionamentos correto`() {
         assertThat(em).isNotNull
     }
-
     @Test
     fun `deveria conseguir salvar um cliente sem trabalho`() {
         val cliente = clienteRepository.saveAndFlush(Cliente(nome = "Um cliente", id = 0))

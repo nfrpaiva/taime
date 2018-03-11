@@ -22,13 +22,12 @@ data class Trabalho(@Id
                     var id: Long = 0,
                     var descricao: String = "",
                     @OneToMany(mappedBy = "trabalho")
-                    var apontamentos: MutableList<Apontamento> = mutableListOf<Apontamento>(),
+                    private val apontamentos: MutableList<Apontamento> = mutableListOf<Apontamento>(),
                     @ManyToOne
                     var cliente: Cliente) {
-    fun novoApontamento(inicio: LocalDateTime = LocalDateTime.now(), fim: LocalDateTime = LocalDateTime.MIN, descricao: String = ""): Apontamento {
-        val apontamento = Apontamento(inicio = inicio, fim = fim, descricao = descricao, trabalho = this)
-        this.apontamentos.add(apontamento)
-        return apontamento
+    fun add(apontamento: Apontamento) {
+        if (apontamento.trabalho == this) apontamentos.add(apontamento)
+        else throw Exception("Esse apontamento não pertence a esse trabalho")
     }
 }
 
