@@ -1,9 +1,6 @@
 package com.nfrpaiva.taime
 
-import com.nfrpaiva.taime.dominio.Cliente
-import com.nfrpaiva.taime.dominio.ClienteRepository
-import com.nfrpaiva.taime.dominio.Trabalho
-import com.nfrpaiva.taime.dominio.TrabalhoRepository
+import com.nfrpaiva.taime.dominio.*
 import org.assertj.core.api.Assertions.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,5 +40,23 @@ class ORMMappingTest {
         val trabalhoResult = trabalhoRepository.findById(trabalho.id).get()
         assertThat(trabalhoResult.descricao).isEqualTo("Um Trabalho")
         assertThat(trabalhoResult.cliente.nome).isEqualToIgnoringCase("Um cliente")
+    }
+
+    @Test
+    fun `nao deveria inserir um apontamento de outro trabalho`(){
+        val cliente = clienteRepository.saveAndFlush(Cliente(nome= "Um Cliente"))
+
+        val trabalho1 = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho 1", cliente = cliente))
+        val trabalho2 = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho 2", cliente = cliente))
+
+        val apontamento1 =  Apontamento(trabalho = trabalho1, descricao = "")
+        val apontamento2 =  Apontamento(trabalho = trabalho1, descricao = "")
+        println(apontamento1)
+        println(apontamento2)
+
+        trabalho1.apontamentos.add(apontamento2)
+        val trabalho = trabalhoRepository.saveAndFlush(trabalho1)
+        println(trabalho)
+
     }
 }
