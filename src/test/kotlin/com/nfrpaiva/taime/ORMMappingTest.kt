@@ -47,7 +47,6 @@ class ORMMappingTest {
         val cliente = clienteRepository.saveAndFlush(Cliente(nome= "Um Cliente"))
 
         val trabalho1 = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho 1", cliente = cliente))
-        val trabalho2 = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho 2", cliente = cliente))
 
         val apontamento1 =  Apontamento(trabalho = trabalho1, descricao = "")
         val apontamento2 =  Apontamento(trabalho = trabalho1, descricao = "")

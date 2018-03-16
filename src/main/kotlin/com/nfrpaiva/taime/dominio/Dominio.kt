@@ -26,7 +26,7 @@ data class Trabalho(@Id
                     var id: Long = 0,
                     var descricao: String,
                     @OneToMany(mappedBy = "trabalho", cascade = arrayOf(CascadeType.ALL))
-                    val apontamentos: MutableList<Apontamento> = mutableListOf<Apontamento>(),
+                    val apontamentos: MutableList<Apontamento> = mutableListOf(),
                     @ManyToOne(cascade = arrayOf(CascadeType.ALL))
                     var cliente: Cliente) {
 
@@ -49,5 +49,5 @@ data class Cliente(@Id
                    var id: Long = 0,
                    var nome: String? = null,
                    @OneToMany(mappedBy = "cliente")
-                   var trabalhos: MutableList<Trabalho> = mutableListOf<Trabalho>()
+                   var trabalhos: MutableList<Trabalho> = mutableListOf()
 )
