@@ -8,6 +8,6 @@ import java.time.Clock
 class SpringBeans{
 
     @Bean
-    fun getClock () =  Clock.systemDefaultZone()
+    fun getClock (): Clock =  Clock.systemDefaultZone()
 
 }

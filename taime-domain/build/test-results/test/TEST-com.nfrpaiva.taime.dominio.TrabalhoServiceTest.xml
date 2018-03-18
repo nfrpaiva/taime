@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2018-03-18T04:19:03" hostname="deepin-vm" time="0.042">
+<testsuite name="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2018-03-18T04:35:07" hostname="deepin-vm" time="0.052">
   <properties/>
-  <testcase name="criar um novo Apontamento para um trabalho já existente sem informar a hora de inicio ou fim" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.035"/>
+  <testcase name="criar um novo Apontamento para um trabalho já existente sem informar a hora de inicio ou fim" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.043"/>
   <testcase name="criar um Apontamento mas não encontrar o trabalho" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.002"/>
-  <testcase name="criar um novo Apontamento para um trabalho já existente informando inicio e fim" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.0"/>
-  <testcase name="checar se as configurações de mock estão ok" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.002"/>
+  <testcase name="criar um novo Apontamento para um trabalho já existente informando inicio e fim" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.001"/>
+  <testcase name="checar se as configurações de mock estão ok" classname="com.nfrpaiva.taime.dominio.TrabalhoServiceTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

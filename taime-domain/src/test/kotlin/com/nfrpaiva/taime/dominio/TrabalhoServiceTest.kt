@@ -17,7 +17,7 @@ import java.util.*
 @RunWith(MockitoJUnitRunner::class)
 class TrabalhoServiceTest {
 
-    val now = LocalDateTime.of(2018, 1, 1, 0, 0)
+    private val now: LocalDateTime = LocalDateTime.of(2018, 1, 1, 0, 0)
 
     private var clock: Clock = Clock.fixed(now.atZone(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault())
 
@@ -36,11 +36,11 @@ class TrabalhoServiceTest {
     @Test
     fun `criar um novo Apontamento para um trabalho já existente sem informar a hora de inicio ou fim`() {
 
-        val trabalhoID = 1L;
+        val trabalhoID = 1L
         val trabalho = Trabalho(nome = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
 
-        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho));
-        var apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID)
+        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
+        val apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID)
 
         assertThat(apontamento.inicio).isEqualTo(now)
         assertThat(apontamento.fim).isEqualTo(LocalDateTime.MIN)
@@ -49,11 +49,11 @@ class TrabalhoServiceTest {
     @Test
     fun `criar um novo Apontamento para um trabalho já existente informando inicio e fim`() {
 
-        val trabalhoID = 1L;
+        val trabalhoID = 1L
         val trabalho = Trabalho(nome = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
 
-        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho));
-        var apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
+        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
+        val apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
 
         assertThat(apontamento.inicio).isEqualTo(LocalDateTime.of(2018, 1, 1, 1, 0))
         assertThat(apontamento.fim).isEqualTo(LocalDateTime.of(2018, 1, 1, 4, 0))
@@ -61,7 +61,7 @@ class TrabalhoServiceTest {
 
     @Test
     fun `criar um Apontamento mas não encontrar o trabalho`() {
-        val trabalhoID = 1L;
+        val trabalhoID = 1L
         BDDMockito.`when`(trabalhoRepository.findById(1)).thenReturn(Optional.empty<Trabalho>())
         try{
             trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))

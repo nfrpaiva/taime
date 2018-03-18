@@ -3,7 +3,6 @@ package com.nfrpaiva.taime.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.ClienteRepository
-import com.nfrpaiva.taime.dominio.TrabalhoRepository
 import com.nfrpaiva.taime.test.MockBeans
 import org.assertj.core.api.Assertions
 import org.junit.Test
