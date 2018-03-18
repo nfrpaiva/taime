@@ -3,6 +3,8 @@ package com.nfrpaiva.taime.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.ClienteRepository
+import com.nfrpaiva.taime.dominio.TrabalhoRepository
+import com.nfrpaiva.taime.test.MockBeans
 import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,6 +12,7 @@ import org.mockito.BDDMockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -18,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(controllers = [(ClienteController::class)])
+@Import(MockBeans::class)
 class ClienteControllerTest {
 
     @Autowired

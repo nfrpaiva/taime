@@ -64,7 +64,7 @@ class TrabalhoServiceTest {
         val trabalhoID = 1L;
         BDDMockito.`when`(trabalhoRepository.findById(1)).thenReturn(Optional.empty<Trabalho>())
         try{
-            var apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
+            trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
             fail("O trabalho não deveria ser sido encontrado")
         }catch (e: TaimeException){
             assertThat(e.message).isEqualTo("Trabalho não Encontrado")
