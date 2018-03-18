@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface TrabalhoRepository : JpaRepository<Trabalho, Long>
+interface TrabalhoRepository : JpaRepository<Trabalho, Long> {
+    fun findByNomeContainingIgnoreCase(nome: String): List<Trabalho>
+}

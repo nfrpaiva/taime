@@ -36,9 +36,9 @@ class ORMMappingTest {
     @Test
     fun `deveria salvar um trabalho` (){
         val cliente = clienteRepository.saveAndFlush(Cliente(nome= "Um Cliente"))
-        val trabalho = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho", cliente = cliente))
+        val trabalho = trabalhoRepository.saveAndFlush(Trabalho(nome = "Um Trabalho", cliente = cliente))
         val trabalhoResult = trabalhoRepository.findById(trabalho.id).get()
-        assertThat(trabalhoResult.descricao).isEqualTo("Um Trabalho")
+        assertThat(trabalhoResult.nome).isEqualTo("Um Trabalho")
         assertThat(trabalhoResult.cliente.nome).isEqualToIgnoringCase("Um cliente")
     }
 
@@ -46,7 +46,7 @@ class ORMMappingTest {
     fun `nao deveria inserir um apontamento de outro trabalho`(){
         val cliente = clienteRepository.saveAndFlush(Cliente(nome= "Um Cliente"))
 
-        val trabalho1 = trabalhoRepository.saveAndFlush(Trabalho(descricao = "Um Trabalho 1", cliente = cliente))
+        val trabalho1 = trabalhoRepository.saveAndFlush(Trabalho(nome = "Um Trabalho 1", cliente = cliente))
 
         val apontamento1 =  Apontamento(trabalho = trabalho1, descricao = "")
         val apontamento2 =  Apontamento(trabalho = trabalho1, descricao = "")

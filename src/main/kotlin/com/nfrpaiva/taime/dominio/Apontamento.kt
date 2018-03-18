@@ -15,7 +15,7 @@ data class Apontamento(@Id
 ) {
 
     override fun toString(): String {
-        return "Apontamento(id=$id, descricao='$descricao', inicio=$inicio, fim=$fim, trabalho=(id = ${trabalho.id}, descricao='${trabalho.descricao}'))"
+        return "Apontamento(id=$id, descricao='$descricao', inicio=$inicio, fim=$fim, trabalho=(id = ${trabalho.id}, descricao='${trabalho.nome}'))"
     }
 }
 

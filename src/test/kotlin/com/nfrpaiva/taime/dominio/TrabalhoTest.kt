@@ -10,7 +10,7 @@ class TrabalhoTest {
 
     @Test
     fun `criar um novo apontamento comecando agora`() {
-        val trabalho = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -1, descricao = "O Trabalho")
+        val trabalho = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -1, nome = "O Trabalho")
         val apontamento = Apontamento(descricao = "Um novo apontamento", trabalho = trabalho)
         trabalho.add(apontamento)
         assertThat(apontamento.trabalho).isEqualTo(trabalho)
@@ -20,8 +20,8 @@ class TrabalhoTest {
 
     @Test
     fun `falar ao adicionar um apontamento a um trabalho que ele nao percente`() {
-        val trabalho1 = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -1, descricao = "Trabalho 1")
-        val trabalho2 = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -2, descricao = "Trabalho 2")
+        val trabalho1 = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -1, nome = "Trabalho 1")
+        val trabalho2 = Trabalho(cliente = Cliente(nome = "Um Cliente"), id = -2, nome = "Trabalho 2")
 
         val apontamento2 = Apontamento(descricao = "Um novo apontamento", trabalho = trabalho2)
 

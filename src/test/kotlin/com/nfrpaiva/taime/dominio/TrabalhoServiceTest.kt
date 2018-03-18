@@ -37,7 +37,7 @@ class TrabalhoServiceTest {
     fun `criar um novo Apontamento para um trabalho já existente sem informar a hora de inicio ou fim`() {
 
         val trabalhoID = 1L;
-        val trabalho = Trabalho(descricao = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
+        val trabalho = Trabalho(nome = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
 
         BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho));
         var apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID)
@@ -50,7 +50,7 @@ class TrabalhoServiceTest {
     fun `criar um novo Apontamento para um trabalho já existente informando inicio e fim`() {
 
         val trabalhoID = 1L;
-        val trabalho = Trabalho(descricao = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
+        val trabalho = Trabalho(nome = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
 
         BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho));
         var apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))

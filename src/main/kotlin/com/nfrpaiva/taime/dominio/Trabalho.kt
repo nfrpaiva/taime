@@ -1,15 +1,17 @@
 package com.nfrpaiva.taime.dominio
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
 data class Trabalho(@Id
                     @GeneratedValue(strategy = GenerationType.AUTO)
                     var id: Long = 0,
-                    var descricao: String,
+                    var nome: String,
                     @OneToMany(mappedBy = "trabalho", cascade = arrayOf(CascadeType.ALL))
                     val apontamentos: MutableList<Apontamento> = mutableListOf(),
                     @ManyToOne(cascade = arrayOf(CascadeType.ALL))
+                    @JsonIgnore
                     var cliente: Cliente) {
 
 
@@ -19,7 +21,7 @@ data class Trabalho(@Id
     }
 
     override fun toString(): String {
-        return "Trabalho(id=$id, descricao='$descricao', apontamentos=$apontamentos, cliente=$cliente)"
+        return "Trabalho(id=$id, descricao='$nome', apontamentos=$apontamentos, cliente=$cliente)"
     }
 
 
