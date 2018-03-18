@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.nfrpaiva.taime.controller.ClienteControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2018-03-18T04:19:13" hostname="deepin-vm" time="0.103">
+  <properties/>
+  <testcase name="retornar uma lista de cliente" classname="com.nfrpaiva.taime.controller.ClienteControllerTest" time="0.103"/>
+  <system-out><![CDATA[2018-03-18 01:19:12.377  INFO 12362 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.nfrpaiva.taime.controller.ClienteControllerTest], using SpringBootContextLoader
+2018-03-18 01:19:12.378  INFO 12362 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.nfrpaiva.taime.controller.ClienteControllerTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+2018-03-18 01:19:12.378  INFO 12362 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nfrpaiva.taime.controller.ClienteControllerTest]: ClienteControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2018-03-18 01:19:12.491  INFO 12362 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nfrpaiva.taime.TaimeApplication for test class com.nfrpaiva.taime.controller.ClienteControllerTest
+2018-03-18 01:19:12.492  INFO 12362 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+2018-03-18 01:19:12.494  INFO 12362 --- [    Test worker] .b.t.a.w.s.WebMvcTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@33a00940, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@51d6af36, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@628d2927, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@102bda61, org.springframework.test.context.support.DirtiesContextTestExecutionListener@23f22b2d, org.springframework.test.context.transaction.TransactionalTestExecutionListener@47b98f7a, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4cf652bb, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2c06196, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@305989a0, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@3b10128e, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@450decdd, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@44c0e93b]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.0.0.RELEASE)
+
+2018-03-18 01:19:12.520  INFO 12362 --- [    Test worker] c.n.t.controller.ClienteControllerTest   : Starting ClienteControllerTest on deepin-vm with PID 12362 (started by fernando in /home/fernando/git/taime/taime-webapi)
+2018-03-18 01:19:12.520  INFO 12362 --- [    Test worker] c.n.t.controller.ClienteControllerTest   : No active profile set, falling back to default profiles: default
+2018-03-18 01:19:12.522  INFO 12362 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@7e141a36: startup date [Sun Mar 18 01:19:12 BRT 2018]; root of context hierarchy
+2018-03-18 01:19:12.982  INFO 12362 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@7e141a36: startup date [Sun Mar 18 01:19:12 BRT 2018]; root of context hierarchy
+2018-03-18 01:19:13.035  INFO 12362 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cliente],methods=[GET]}" onto public org.springframework.http.ResponseEntity<java.util.List<com.nfrpaiva.taime.dominio.Cliente>> com.nfrpaiva.taime.controller.ClienteController.findAll()
+2018-03-18 01:19:13.036  INFO 12362 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/cliente/{id}],methods=[GET]}" onto public org.springframework.http.ResponseEntity<com.nfrpaiva.taime.dominio.Cliente> com.nfrpaiva.taime.controller.ClienteController.get(long)
+2018-03-18 01:19:13.038  INFO 12362 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-03-18 01:19:13.038  INFO 12362 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-03-18 01:19:13.065  INFO 12362 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-03-18 01:19:13.065  INFO 12362 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-03-18 01:19:13.092  INFO 12362 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-03-18 01:19:13.160  INFO 12362 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring FrameworkServlet ''
+2018-03-18 01:19:13.160  INFO 12362 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2018-03-18 01:19:13.169  INFO 12362 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 9 ms
+2018-03-18 01:19:13.227  INFO 12362 --- [    Test worker] c.n.t.controller.ClienteControllerTest   : Started ClienteControllerTest in 0.727 seconds (JVM running for 4.715)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /cliente
+       Parameters = {}
+          Headers = {}
+             Body = <no character encoding set>
+    Session Attrs = {}
+
+Handler:
+             Type = com.nfrpaiva.taime.controller.ClienteController
+           Method = public org.springframework.http.ResponseEntity<java.util.List<com.nfrpaiva.taime.dominio.Cliente>> com.nfrpaiva.taime.controller.ClienteController.findAll()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = {Content-Type=[application/json;charset=UTF-8]}
+     Content type = application/json;charset=UTF-8
+             Body = [{"id":1,"nome":"Um Cliente"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
