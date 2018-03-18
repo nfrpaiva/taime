@@ -12,7 +12,9 @@ class TrabalhoService(val clock: Clock) {
     @Autowired
     private lateinit var trabalhoRepository: TrabalhoRepository
 
-    fun novoApontamento(trabalhoID: Long, inicio:LocalDateTime = LocalDateTime.now(clock), fim: LocalDateTime =  LocalDateTime.MIN): Apontamento {
+    fun novoApontamento(trabalhoID: Long,
+                        inicio:LocalDateTime = LocalDateTime.now(clock),
+                        fim: LocalDateTime =  LocalDateTime.MIN): Apontamento {
         return Apontamento(inicio = inicio,
                 fim = fim,
                 descricao = "Um Apontamento",
