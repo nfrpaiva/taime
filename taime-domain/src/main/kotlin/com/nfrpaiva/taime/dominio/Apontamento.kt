@@ -12,10 +12,4 @@ data class Apontamento(@Id
                        var fim: LocalDateTime = LocalDateTime.MIN,
                        @ManyToOne
                        var trabalho: Trabalho
-) {
-
-    override fun toString(): String {
-        return "Apontamento(id=$id, descricao='$descricao', inicio=$inicio, fim=$fim, trabalho=(id = ${trabalho.id}, descricao='${trabalho.nome}'))"
-    }
-}
-
+)

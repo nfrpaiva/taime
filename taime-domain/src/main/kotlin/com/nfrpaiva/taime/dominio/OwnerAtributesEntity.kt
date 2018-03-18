@@ -4,6 +4,6 @@ import java.awt.datatransfer.ClipboardOwner
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class OwnerAtributesEntity (open var owner: String ="") {
+abstract class OwnerAtributesEntity (open val userID: String ="") {
 
 }

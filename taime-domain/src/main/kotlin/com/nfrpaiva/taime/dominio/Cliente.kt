@@ -8,5 +8,5 @@ data class Cliente(@Id
                    @GeneratedValue(strategy = GenerationType.AUTO)
                    var id: Long = 0,
                    var nome: String,
-                   override var owner: String = "Nilton"
-) : OwnerAtributesEntity(owner)
+                   override val userID: String = "Nilton"
+) : OwnerAtributesEntity(userID)

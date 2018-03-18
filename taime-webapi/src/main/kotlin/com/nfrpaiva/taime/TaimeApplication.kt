@@ -1,9 +1,6 @@
 package com.nfrpaiva.taime
 
-import com.nfrpaiva.taime.dominio.Cliente
-import com.nfrpaiva.taime.dominio.ClienteRepository
-import com.nfrpaiva.taime.dominio.Trabalho
-import com.nfrpaiva.taime.dominio.TrabalhoRepository
+import com.nfrpaiva.taime.dominio.*
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -13,10 +10,14 @@ import org.springframework.context.annotation.Bean
 class TaimeApplication{
     @Bean
     fun init (clienteRepository: ClienteRepository,
-              trabalhoRepository: TrabalhoRepository) = CommandLineRunner {
+              trabalhoRepository: TrabalhoRepository,
+              apontamentoRepository: ApontamentoRepository) = CommandLineRunner {
         clienteRepository.saveAll( mutableListOf(Cliente(nome="Nilton Paiva"),
                 Cliente(nome="Barbara Carolina")))
-        trabalhoRepository.save(Trabalho(nome = "Um Trabalho", cliente = Cliente(nome="Um clente")))
+        val trabalho = trabalhoRepository.save(Trabalho(nome = "Um Trabalho", cliente = Cliente(nome="Um clente")))
+        if (trabalho != null){
+            val apontamento = apontamentoRepository.save(Apontamento(descricao = "Um Apontamento", trabalho = trabalho))
+        }
     }
 }
 
