@@ -1,6 +1,8 @@
 package com.nfrpaiva.taime.infra
 
 import com.nfrpaiva.taime.dominio.Apontamento
+import com.nfrpaiva.taime.dominio.Trabalho
+import com.nfrpaiva.taime.dominio.TrabalhoRepository
 import com.nfrpaiva.taime.dto.ApontamentoDTO
 import java.util.*
 
@@ -18,4 +20,9 @@ fun Optional<Apontamento>.toDTO(): Optional<ApontamentoDTO> {
     } else {
         return Optional.empty<ApontamentoDTO>()
     }
+}
+
+fun ApontamentoDTO.toEntity(trabalhoRepository: TrabalhoRepository): Apontamento {
+    val trabalho : Trabalho =   trabalhoRepository.findById(this.trabalhoID).orElseThrow { Exception() }
+    return Apontamento(this.id, this.nome, this.inicio, this.fim,trabalho)
 }
