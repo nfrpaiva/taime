@@ -3,6 +3,7 @@ package com.nfrpaiva.taime.controller
 import com.nfrpaiva.taime.dominio.Apontamento
 import com.nfrpaiva.taime.dominio.ApontamentoRepository
 import com.nfrpaiva.taime.dominio.TrabalhoRepository
+import com.nfrpaiva.taime.dominio.TrabalhoService
 import com.nfrpaiva.taime.dto.ApontamentoDTO
 import com.nfrpaiva.taime.infra.defaultOrNotFound
 import com.nfrpaiva.taime.infra.responseOK
@@ -21,7 +22,7 @@ class ApontamentoController {
     lateinit var apontamentoRepository: ApontamentoRepository
 
     @Autowired
-    lateinit var trabalhoRepository: TrabalhoRepository
+    lateinit var trabalhoService: TrabalhoService
 
     @GetMapping
     fun findAll(): ResponseEntity<List<ApontamentoDTO>> = apontamentoRepository.findAll().toDTO().responseOK()
@@ -33,9 +34,11 @@ class ApontamentoController {
     fun deleteById(@PathVariable id: Long): Unit = apontamentoRepository.deleteById(id)
 
     @PutMapping
-    fun insert(@RequestBody apontamentoDTO: ApontamentoDTO): ResponseEntity<Unit> {
-        apontamentoRepository.save(apontamentoDTO.toEntity(trabalhoRepository))
-        return ResponseEntity.ok().build()
+    fun insert(@RequestBody apontamentoDTO: ApontamentoDTO): ResponseEntity<ApontamentoDTO> {
+        return ResponseEntity.ok(trabalhoService.novoApontamento(apontamentoDTO.trabalhoID,
+                apontamentoDTO.nome,
+                apontamentoDTO.inicio,
+                apontamentoDTO.fim).toDTO())
     }
 
 }

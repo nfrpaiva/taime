@@ -1,6 +1,6 @@
 package com.nfrpaiva.taime.dominio
 
-import com.nfrpaiva.taime.infra.returnOrThrow
+import com.nfrpaiva.taime.exception.TaimeException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.Clock
@@ -12,12 +12,19 @@ class TrabalhoService(val clock: Clock) {
     @Autowired
     private lateinit var trabalhoRepository: TrabalhoRepository
 
+    @Autowired
+    private lateinit var apontamentoRepository: ApontamentoRepository
+
+    @Throws(TaimeException::class)
     fun novoApontamento(trabalhoID: Long,
-                        inicio:LocalDateTime = LocalDateTime.now(clock),
-                        fim: LocalDateTime =  LocalDateTime.MIN): Apontamento {
-        return Apontamento(inicio = inicio,
+                        descricao: String="Sem descrição",
+                        inicio: LocalDateTime = LocalDateTime.now(clock),
+                        fim: LocalDateTime = LocalDateTime.MIN): Apontamento {
+        val apontamento = Apontamento(inicio = inicio,
                 fim = fim,
-                descricao = "Um Apontamento",
-                trabalho = trabalhoRepository.findById(trabalhoID).returnOrThrow("Trabalho não Encontrado"))
+                descricao = descricao,
+                trabalho = trabalhoRepository.findById(trabalhoID)
+                        .orElseThrow { TaimeException("Trabalho não Encontrado") })
+        return apontamentoRepository.save(apontamento)
     }
 }

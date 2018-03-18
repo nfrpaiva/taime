@@ -27,6 +27,9 @@ class TrabalhoServiceTest {
     @Mock
     private lateinit var trabalhoRepository: TrabalhoRepository
 
+    @Mock
+    private lateinit var apontamentoRepository: ApontamentoRepository
+
     @Test
     fun `checar se as configurações de mock estão ok`() {
         assertThat(trabalhoService).isNotNull
@@ -53,7 +56,7 @@ class TrabalhoServiceTest {
         val trabalho = Trabalho(nome = "Um Trabalho", cliente = Cliente(nome = "Um Cliente"))
 
         BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
-        val apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
+        val apontamento: Apontamento = trabalhoService.novoApontamento(trabalhoID, inicio =  now.plusHours(1), fim = now.plusHours(4))
 
         assertThat(apontamento.inicio).isEqualTo(LocalDateTime.of(2018, 1, 1, 1, 0))
         assertThat(apontamento.fim).isEqualTo(LocalDateTime.of(2018, 1, 1, 4, 0))
@@ -64,7 +67,7 @@ class TrabalhoServiceTest {
         val trabalhoID = 1L
         BDDMockito.`when`(trabalhoRepository.findById(1)).thenReturn(Optional.empty<Trabalho>())
         try{
-            trabalhoService.novoApontamento(trabalhoID, now.plusHours(1), now.plusHours(4))
+            trabalhoService.novoApontamento(trabalhoID, inicio = now.plusHours(1), fim = now.plusHours(4))
             fail("O trabalho não deveria ser sido encontrado")
         }catch (e: TaimeException){
             assertThat(e.message).isEqualTo("Trabalho não Encontrado")
