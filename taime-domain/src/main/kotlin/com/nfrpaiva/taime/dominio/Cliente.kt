@@ -7,8 +7,6 @@ import javax.persistence.*
 data class Cliente(@Id
                    @GeneratedValue(strategy = GenerationType.AUTO)
                    var id: Long = 0,
-                   var nome: String
-//                   ,@OneToMany(mappedBy = "cliente")
-//                   @JsonIgnore
-//                   var trabalhos: MutableList<Trabalho> = mutableListOf()
-)
+                   var nome: String,
+                   override var owner: String = "Nilton"
+) : OwnerAtributesEntity(owner)
