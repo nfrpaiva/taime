@@ -58,4 +58,5 @@ class ORMMappingTest {
         println(trabalho)
 
     }
+
 }
