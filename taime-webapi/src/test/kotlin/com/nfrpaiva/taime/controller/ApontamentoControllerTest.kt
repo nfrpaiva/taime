@@ -3,7 +3,7 @@ package com.nfrpaiva.taime.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.*
 import com.nfrpaiva.taime.dto.ApontamentoDTO
-import com.nfrpaiva.taime.exception.TaimeException
+import com.nfrpaiva.taime.infra.toEntity
 import com.nfrpaiva.taime.test.MockBeans
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,11 +16,9 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDateTime
 import java.util.*
-import java.util.Optional.*
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(controllers = [(ApontamentoController::class)])
@@ -34,13 +32,13 @@ class ApontamentoControllerTest {
     private lateinit var apontamentoRepository: ApontamentoRepository
 
     @MockBean
-    private lateinit var trabalhoService: TrabalhoService
+    private lateinit var trabalhoRepository: TrabalhoRepository
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private val  trabalhoID = 1L;
-    private val trabalho = Trabalho(trabalhoID,"", Cliente(1L,"","Nilton"))
+    private val trabalhoID = 1L;
+    private val trabalho = Trabalho(trabalhoID, "", Cliente(1L, "", "Nilton"))
 
     @Test
     fun testInsertPontamento() {
@@ -48,8 +46,8 @@ class ApontamentoControllerTest {
         val apontamento = Apontamento(1L, dto.nome, dto.inicio, dto.fim, trabalho)
 
         val apontamentoString = objectMapper.writeValueAsString(dto)
-        BDDMockito.`when`(trabalhoService.novoApontamento(trabalhoID, dto.nome, dto.inicio, dto.fim))
-                .thenReturn(apontamento)
+        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
+        BDDMockito.`when`(apontamentoRepository.save(dto.toEntity(trabalho))).thenReturn(dto.toEntity(trabalho))
 
         mockMvc.perform(put("/apontamento").content(apontamentoString)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -63,8 +61,7 @@ class ApontamentoControllerTest {
         val apontamento = Apontamento(1L, dto.nome, dto.inicio, dto.fim, trabalho)
 
         val apontamentoString = objectMapper.writeValueAsString(dto)
-        BDDMockito.`when`(trabalhoService.novoApontamento(trabalhoID, dto.nome, dto.inicio, dto.fim))
-                .thenThrow(TaimeException("Trabalho não Encontrado"))
+        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.empty())
 
         mockMvc.perform(put("/apontamento").content(apontamentoString)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

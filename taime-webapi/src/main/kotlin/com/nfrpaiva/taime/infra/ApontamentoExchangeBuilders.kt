@@ -23,7 +23,6 @@ fun Optional<Apontamento>.toDTO(): Optional<ApontamentoDTO> {
     }
 }
 
-fun ApontamentoDTO.toEntity(trabalhoRepository: TrabalhoRepository): Apontamento {
-    val trabalho : Trabalho =   trabalhoRepository.findById(this.trabalhoID).orElseThrow { TaimeException("Trabalho não Encontrado") }
+fun ApontamentoDTO.toEntity(trabalho: Trabalho): Apontamento {
     return Apontamento(this.id, this.nome, this.inicio, this.fim,trabalho)
 }
