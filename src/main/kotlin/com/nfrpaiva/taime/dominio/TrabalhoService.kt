@@ -1,9 +1,9 @@
 package com.nfrpaiva.taime.dominio
 
+import com.nfrpaiva.taime.infra.returnOrThrow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.Clock
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -16,6 +16,6 @@ class TrabalhoService(val clock: Clock) {
         return Apontamento(inicio = inicio,
                 fim = fim,
                 descricao = "Um Apontamento",
-                trabalho = trabalhoRepository.findById(trabalhoID).get())
+                trabalho = trabalhoRepository.findById(trabalhoID).returnOrThrow("Trabalho não Encontrado"))
     }
 }
