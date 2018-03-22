@@ -3,7 +3,6 @@ package com.nfrpaiva.taime.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.*
 import com.nfrpaiva.taime.dto.ApontamentoDTO
-import com.nfrpaiva.taime.infra.toEntity
 import com.nfrpaiva.taime.test.MockBeans
 import org.junit.Test
 import org.junit.runner.RunWith

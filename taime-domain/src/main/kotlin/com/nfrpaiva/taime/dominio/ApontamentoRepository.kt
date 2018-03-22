@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ApontamentoRepository : JpaRepository<Apontamento, Long> {
-
+    fun findByTrabalhoID(trabalhoID:Long): List<Apontamento>
 }
