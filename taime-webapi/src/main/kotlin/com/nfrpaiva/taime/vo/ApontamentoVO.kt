@@ -1,4 +1,4 @@
-package com.nfrpaiva.taime.dto
+package com.nfrpaiva.taime.vo
 
 import java.time.LocalDateTime
 

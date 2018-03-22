@@ -1,6 +1,7 @@
 package com.nfrpaiva.taime.application.dto
 
 import com.nfrpaiva.taime.dominio.Apontamento
+import com.nfrpaiva.taime.dominio.Trabalho
 import java.util.*
 
 fun List<Apontamento>.toDTO(): List<ApontamentoDTO> {
@@ -17,4 +18,7 @@ fun Optional<Apontamento>.toDTO(): Optional<ApontamentoDTO> {
     } else {
         Optional.empty()
     }
+}
+fun ApontamentoDTO.toDomain(trabalho:Trabalho): Apontamento {
+    return Apontamento(this.id, this.nome, this.inicio, this.fim, trabalho)
 }

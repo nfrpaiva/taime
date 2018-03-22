@@ -1,9 +1,12 @@
 package com.nfrpaiva.taime.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.nfrpaiva.taime.application.JobApp
+import com.nfrpaiva.taime.application.dto.ApontamentoDTO
 import com.nfrpaiva.taime.dominio.*
-import com.nfrpaiva.taime.dto.ApontamentoDTO
+import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.test.MockBeans
+import com.nfrpaiva.taime.vo.ApontamentoVO
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito
@@ -28,10 +31,7 @@ class ApontamentoControllerTest {
     private lateinit var objectMapper: ObjectMapper
 
     @MockBean
-    private lateinit var apontamentoRepository: ApontamentoRepository
-
-    @MockBean
-    private lateinit var trabalhoRepository: TrabalhoRepository
+    private lateinit var jobApp: JobApp
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -42,12 +42,9 @@ class ApontamentoControllerTest {
     @Test
     fun testInsertPontamento() {
         val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
-        val apontamento = Apontamento(1L, dto.nome, dto.inicio, dto.fim, trabalho)
-
         val apontamentoString = objectMapper.writeValueAsString(dto)
-        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
-        BDDMockito.`when`(apontamentoRepository.save(dto.toEntity(trabalho))).thenReturn(dto.toEntity(trabalho))
-
+        BDDMockito.`when`(jobApp.inserirApontamento(dto)).thenReturn(dto)
+        val  valor = jobApp.inserirApontamento(dto)
         mockMvc.perform(put("/apontamento").content(apontamentoString)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
@@ -57,10 +54,8 @@ class ApontamentoControllerTest {
     @Test
     fun testInsertPontamentoSemTrabalho() {
         val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
-        val apontamento = Apontamento(1L, dto.nome, dto.inicio, dto.fim, trabalho)
-
         val apontamentoString = objectMapper.writeValueAsString(dto)
-        BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.empty())
+        BDDMockito.`when`(jobApp.inserirApontamento(dto)).thenThrow(TaimeException(""))
 
         mockMvc.perform(put("/apontamento").content(apontamentoString)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
