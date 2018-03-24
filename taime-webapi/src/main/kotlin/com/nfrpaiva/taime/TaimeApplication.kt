@@ -14,9 +14,9 @@ class TaimeApplication{
               apontamentoRepository: ApontamentoRepository) = CommandLineRunner {
         clienteRepository.saveAll( mutableListOf(Cliente(nome="Nilton Paiva"),
                 Cliente(nome="Barbara Carolina")))
-        val trabalho = trabalhoRepository.save(Trabalho(nome = "Um Trabalho", cliente = Cliente(nome="Um clente")))
+        val trabalho : Trabalho? = trabalhoRepository.save(Trabalho(nome = "Um Trabalho", cliente = Cliente(nome="Um clente")))
         if (trabalho != null){
-            val apontamento = apontamentoRepository.save(Apontamento(descricao = "Um Apontamento", trabalho = trabalho))
+            apontamentoRepository.save(Apontamento(nome = "Um Apontamento", trabalho = trabalho))
         }
     }
 }
