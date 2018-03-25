@@ -32,7 +32,6 @@ class ApontamentoServiceTest {
         val fim = LocalDateTime.now()
         val trabalhoID = 3L
         val trabalho = Trabalho(trabalhoID, "Um trabalho", Cliente(1L, "Nome do cliente"))
-
         val apontamento: Apontamento =  Apontamento(id, nome, inicio, fim, trabalho)
         BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
         BDDMockito.`when`(apontamentoRepository.save(apontamento)).thenReturn(apontamento)

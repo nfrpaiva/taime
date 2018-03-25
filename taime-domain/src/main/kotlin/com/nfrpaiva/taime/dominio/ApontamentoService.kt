@@ -16,7 +16,8 @@ class ApontamentoService {
 
     @Throws(TaimeException::class)
     fun criarApontamento(id: Long, nome: String, inicio: LocalDateTime, fim: LocalDateTime, trabalhoID: Long): Apontamento {
-        return apontamentoRepository.save(Apontamento(id, nome, inicio, fim, trabalhoRepository.findById(trabalhoID).orElseThrow { TaimeException("Trabalho não econtrado") }))
+        return apontamentoRepository.save(Apontamento(id, nome, inicio, fim,
+                trabalhoRepository.findById(trabalhoID).orElseThrow { TaimeException("Trabalho não econtrado") }))
     }
 
 }
