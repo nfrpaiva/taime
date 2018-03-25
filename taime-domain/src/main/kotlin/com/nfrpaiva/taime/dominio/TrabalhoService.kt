@@ -13,9 +13,9 @@ class TrabalhoService {
     @Autowired
     lateinit var trabalhoRepository: TrabalhoRepository
 
-    fun  criarTrabalho (command : TrabalhoCommand) : Trabalho {
-        val trabalho = Trabalho(command.id,
-                command.nome,
+    @Throws(TaimeException::class)
+    fun criarTrabalho(command: TrabalhoCommand): Trabalho {
+        val trabalho = Trabalho(-1, command.nome,
                 clienteRepository.findById(command.clienteID).orElseThrow { TaimeException("Cliente não encontrado") })
         return trabalhoRepository.save(trabalho)
     }

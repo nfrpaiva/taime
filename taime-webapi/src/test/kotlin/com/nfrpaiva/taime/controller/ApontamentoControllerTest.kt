@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.*
 import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.test.MockBeans
-import com.nfrpaiva.taime.vo.ApontamentoVO
+import com.nfrpaiva.taime.dto.ApontamentoDTO
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -42,7 +41,7 @@ class ApontamentoControllerTest {
 
     @Test
     fun testInsertPontamento() {
-        val dto = ApontamentoVO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
+        val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
         val apontamentoString = objectMapper.writeValueAsString(dto)
         val apontamento = Apontamento(dto.id, dto.nome, dto.inicio, dto.fim, trabalho)
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenReturn(apontamento)
@@ -55,7 +54,7 @@ class ApontamentoControllerTest {
 
     @Test
     fun testInsertPontamentoSemTrabalho() {
-        val dto = ApontamentoVO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
+        val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
         val apontamentoString = objectMapper.writeValueAsString(dto)
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenThrow(TaimeException("Trabalho não encontrado"))
 

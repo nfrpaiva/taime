@@ -1,5 +1,5 @@
 package com.nfrpaiva.taime.dominio
 
-class TrabalhoCommand(val clienteID: Long, val nome: String, val id: Long) {
+data class TrabalhoCommand(val nome: String, val clienteID: Long) {
 
 }

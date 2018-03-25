@@ -13,9 +13,13 @@ fun trabalho(): Trabalho {
 }
 
 fun cliente(): Cliente {
-    return Cliente (id(), "Um Cliente", "TestUser")
+    return Cliente(id(), "Um Cliente", "TestUser")
 }
 
-fun Any.json (mapper: ObjectMapper) : String  = mapper.writeValueAsString(this)
+fun Any.json(mapper: ObjectMapper): String {
+    val result = mapper.writeValueAsString(this)
+    println(result)
+    return result;
+}
 
-private fun id() : Long = (Random().nextInt(100-1) + 1).toLong()
+private fun id(): Long = (Random().nextInt(100 - 1) + 1).toLong()
