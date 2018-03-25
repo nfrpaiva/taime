@@ -5,6 +5,8 @@ import com.nfrpaiva.taime.dominio.ApontamentoService
 import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.dto.ApontamentoDTO
 import com.nfrpaiva.taime.dto.toDTO
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.*

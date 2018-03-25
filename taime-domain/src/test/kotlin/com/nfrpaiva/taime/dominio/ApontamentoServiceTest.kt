@@ -36,7 +36,7 @@ class ApontamentoServiceTest {
         BDDMockito.`when`(trabalhoRepository.findById(trabalhoID)).thenReturn(Optional.of(trabalho))
         BDDMockito.`when`(apontamentoRepository.save(apontamento)).thenReturn(apontamento)
 
-        val result =  service.criarApontamento(id, nome, inicio, fim, trabalhoID)
+        service.criarApontamento(id, nome, inicio, fim, trabalhoID)
 
         BDDMockito.verify(trabalhoRepository).findById(Mockito.anyLong())
         BDDMockito.verify(apontamentoRepository).save(apontamento)

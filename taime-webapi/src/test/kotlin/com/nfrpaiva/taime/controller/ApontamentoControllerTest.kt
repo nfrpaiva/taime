@@ -5,6 +5,9 @@ import com.nfrpaiva.taime.dominio.*
 import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.test.MockBeans
 import com.nfrpaiva.taime.dto.ApontamentoDTO
+import com.nfrpaiva.taime.dto.toDTO
+import com.nfrpaiva.taime.test.apontamento
+import com.nfrpaiva.taime.test.json
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito
@@ -36,17 +39,13 @@ class ApontamentoControllerTest {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
-    private val trabalhoID = 1L;
-    private val trabalho = Trabalho(trabalhoID, "", Cliente(1L, "", "Nilton"))
-
     @Test
     fun testInsertPontamento() {
-        val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
-        val apontamentoString = objectMapper.writeValueAsString(dto)
-        val apontamento = Apontamento(dto.id, dto.nome, dto.inicio, dto.fim, trabalho)
+        val apontamento =  apontamento()
+        val dto = apontamento.toDTO()
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenReturn(apontamento)
 
-        mockMvc.perform(put("/apontamento").content(apontamentoString)
+        mockMvc.perform(put("/apontamento").content(dto.json(objectMapper))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().is2xxSuccessful)
@@ -54,11 +53,10 @@ class ApontamentoControllerTest {
 
     @Test
     fun testInsertPontamentoSemTrabalho() {
-        val dto = ApontamentoDTO(0L, "Um Apontamento", LocalDateTime.now(), LocalDateTime.now().plusDays(1), trabalhoID)
-        val apontamentoString = objectMapper.writeValueAsString(dto)
+        val dto = apontamento().toDTO()
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenThrow(TaimeException("Trabalho não encontrado"))
 
-        mockMvc.perform(put("/apontamento").content(apontamentoString)
+        mockMvc.perform(put("/apontamento").content(dto.json(objectMapper))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().is4xxClientError)

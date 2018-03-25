@@ -1,6 +1,7 @@
 package com.nfrpaiva.taime.test
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.nfrpaiva.taime.dominio.Apontamento
 import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.Trabalho
 import java.util.*
@@ -19,7 +20,11 @@ fun cliente(): Cliente {
 fun Any.json(mapper: ObjectMapper): String {
     val result = mapper.writeValueAsString(this)
     println(result)
-    return result;
+    return result
 }
 
-private fun id(): Long = (Random().nextInt(100 - 1) + 1).toLong()
+fun apontamento() : Apontamento {
+   return Apontamento(id(), "Um Apontamento",trabalho = trabalho())
+}
+
+private fun id(): Long = (Random().nextInt(10000 - 1) + 1).toLong()
