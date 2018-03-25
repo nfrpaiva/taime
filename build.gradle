@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.30'
+        kotlinVersion = '1.2.31'
         springBootVersion = '2.0.0.RELEASE'
     }
     repositories {
@@ -15,7 +15,7 @@ buildscript {
 }
 subprojects {
     ext {
-        kotlinVersion = '1.2.30'
+        kotlinVersion = '1.2.31'
         springBootVersion = '2.0.0.RELEASE'
     }
     apply plugin: 'kotlin'
