@@ -3,7 +3,10 @@ package com.nfrpaiva.taime.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.ClienteRepository
+import com.nfrpaiva.taime.dto.toDTO
 import com.nfrpaiva.taime.test.MockBeans
+import com.nfrpaiva.taime.test.cliente
+import com.nfrpaiva.taime.test.json
 import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
+import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -43,6 +48,20 @@ class ClienteControllerTest {
                 .andDo(print())
                 .andReturn()
         Assertions.assertThat(result.response.contentAsString).isEqualTo(objectMapper.writeValueAsString(clientes))
+    }
+
+    @Test
+    fun `inserir um cliente`() {
+        val cliente = cliente()
+        BDDMockito.`when`(clienteRepository.save(cliente)).thenReturn(cliente)
+        val result = mockMvc.perform(put("/cliente")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .content(cliente.toDTO().json(objectMapper)))
+                .andExpect(status().is2xxSuccessful)
+                .andDo(print())
+                .andReturn().request.contentAsString
+        Assertions.assertThat(cliente.toDTO().json(objectMapper)).isEqualTo(result)
     }
 
 }

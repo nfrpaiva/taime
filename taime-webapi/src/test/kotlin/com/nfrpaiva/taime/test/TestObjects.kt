@@ -14,7 +14,7 @@ fun trabalho(): Trabalho {
 }
 
 fun cliente(): Cliente {
-    return Cliente(id(), "Um Cliente", "TestUser")
+    return Cliente(id(), "Um Cliente", "Nilton")
 }
 
 fun Any.json(mapper: ObjectMapper): String {

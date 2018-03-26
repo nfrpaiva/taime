@@ -1,14 +1,14 @@
 package com.nfrpaiva.taime.controller
 
 
+import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.ClienteRepository
+import com.nfrpaiva.taime.dto.ClienteDTO
+import com.nfrpaiva.taime.dto.toDTO
 import com.nfrpaiva.taime.infra.defaultOrNotFound
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("cliente")
@@ -22,5 +22,8 @@ class ClienteController {
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = clienteRepository.findById(id).defaultOrNotFound()
+
+    @PutMapping
+    fun insert(@RequestBody dto: ClienteDTO): ResponseEntity<ClienteDTO> = ResponseEntity.ok(clienteRepository.save(Cliente(dto.id, dto.nome)).toDTO())
 
 }
