@@ -1,11 +1,10 @@
 package com.nfrpaiva.taime.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nfrpaiva.taime.dominio.*
+import com.nfrpaiva.taime.dominio.ApontamentoService
+import com.nfrpaiva.taime.dto.toDTO
 import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.test.MockBeans
-import com.nfrpaiva.taime.dto.ApontamentoDTO
-import com.nfrpaiva.taime.dto.toDTO
 import com.nfrpaiva.taime.test.apontamento
 import com.nfrpaiva.taime.test.json
 import org.junit.Test
@@ -20,7 +19,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import java.time.LocalDateTime
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(controllers = [(ApontamentoController::class)])
@@ -32,9 +30,6 @@ class ApontamentoControllerTest {
 
     @MockBean
     private lateinit var apontamentoService: ApontamentoService
-
-    @MockBean
-    private lateinit var apontamentoRepository: ApontamentoRepository
 
     @Autowired
     private lateinit var mockMvc: MockMvc
