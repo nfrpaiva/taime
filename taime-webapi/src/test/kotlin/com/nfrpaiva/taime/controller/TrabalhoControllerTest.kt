@@ -1,12 +1,13 @@
 package com.nfrpaiva.taime.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nfrpaiva.taime.dominio.Cliente
-import com.nfrpaiva.taime.dominio.ClienteRepository
+import com.nfrpaiva.taime.dominio.TrabalhoCommand
+import com.nfrpaiva.taime.dominio.TrabalhoService
 import com.nfrpaiva.taime.dto.toDTO
+import com.nfrpaiva.taime.exception.TaimeException
 import com.nfrpaiva.taime.test.MockBeans
-import com.nfrpaiva.taime.test.cliente
 import com.nfrpaiva.taime.test.json
+import com.nfrpaiva.taime.test.trabalho
 import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,50 +19,46 @@ import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(controllers = [(ClienteController::class)])
+@WebMvcTest(controllers = [(TrabalhoController::class)])
 @Import(MockBeans::class)
-class ClienteControllerTest {
+class TrabalhoControllerTest {
 
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
     @MockBean
-    private lateinit var clienteRepository: ClienteRepository
+    private lateinit var trabalhoService: TrabalhoService
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
-    fun `retornar uma lista de cliente`() {
-
-        val clientes = listOf(Cliente(1, "Um Cliente"))
-        BDDMockito.`when`(clienteRepository.findAll()).thenReturn(clientes)
-
-        val result = mockMvc.perform(get("/cliente"))
-                .andExpect(status().isOk)
-                .andDo(print())
-                .andReturn()
-        Assertions.assertThat(result.response.contentAsString).isEqualTo(objectMapper.writeValueAsString(clientes))
+    fun inserirTrabalho() {
+        val trabalho = trabalho()
+        BDDMockito.`when`(trabalhoService.criarTrabalho(TrabalhoCommand(trabalho.nome, trabalho.cliente.id))).thenReturn(trabalho)
+        val result = mockMvc.perform(put("/trabalho")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .content(trabalho.toDTO().json(objectMapper)))
+                .andExpect(status().is2xxSuccessful)
+                .andDo(print()).andReturn().request.contentAsString
+        Assertions.assertThat(trabalho.toDTO().json(objectMapper)).isEqualTo(result)
     }
 
     @Test
-    fun `inserir um cliente`() {
-        val cliente = cliente()
-        BDDMockito.`when`(clienteRepository.save(cliente)).thenReturn(cliente)
-        val result = mockMvc.perform(put("/cliente")
+    fun `inserir trabalho e falar porque não encontrou o cliente`() {
+        val trabalho = trabalho()
+        BDDMockito.`when`(trabalhoService.criarTrabalho(TrabalhoCommand(trabalho.nome, trabalho.cliente.id))).thenThrow(TaimeException(""))
+        mockMvc.perform(put("/trabalho")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .content(cliente.toDTO().json(objectMapper)))
-                .andExpect(status().is2xxSuccessful)
+        ).andExpect(status().is4xxClientError)
                 .andDo(print())
-                .andReturn().request.contentAsString
-        Assertions.assertThat(cliente.toDTO().json(objectMapper)).isEqualTo(result)
-    }
 
+    }
 }

@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Apontamento(@Id
                        @GeneratedValue(strategy = GenerationType.AUTO)
                        var id: Long = 0,
-                       var descricao: String,
+                       var nome: String,
                        var inicio: LocalDateTime = LocalDateTime.now(),
                        var fim: LocalDateTime = LocalDateTime.MIN,
                        @ManyToOne
