@@ -61,7 +61,7 @@ class Umtest() {
     }
 
     @Test
-    fun `filterTest`() {
+    fun filterTest() {
         val clientes = mutableListOf<Cliente>()
         for (i in 1..10_000) {
             clientes.add(Cliente(nome = "Cliente numero $i", id = i.toLong()))
