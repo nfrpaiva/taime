@@ -1,7 +1,9 @@
 package com.nfrpaiva.taime.dominio.test
 
+import com.nfrpaiva.taime.dominio.Cliente
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import kotlin.properties.Delegates
 
 // TODO: Nao faz parte do projeto. é apenas um teste
 class Umtest() {
@@ -44,8 +46,8 @@ class Umtest() {
         return foo(n)
     }
 
-    fun <T> String.map(mapx: (String) -> T): T {
-        return mapx(this)
+    fun <T> String.map(map: (String) -> T): T {
+        return map(this)
     }
 
     @Test
@@ -58,21 +60,61 @@ class Umtest() {
         assertThat('x').isEqualTo("xx"[0])
     }
 
-    fun html(init: HTML.() -> Unit): HTML {
-        val html = HTML()
-        html.init()
-        return html
+    @Test
+    fun `filterTest`() {
+        val clientes = mutableListOf<Cliente>()
+        for (i in 1..10_000) {
+            clientes.add(Cliente(nome = "Cliente numero $i", id = i.toLong()))
+        }
+
+        assertThat(clientes).hasSize(10_000)
+        assertThat(clientes.filter { it.id <= 5_000 }).hasSize(5_000)
+
+        clientes.map { it.id }.forEach { println(it) }
+
     }
 
     @Test
-    fun x (){
-        val html = html {
-
-        }
-        println(html)
+    fun testDelegate (){
+        val o =  Objeto("")
+        o.observableProperty = "Fernandinho"
+        o.observableProperty =  "Fernandinho Segundo"
     }
-}
-class HTML (){
+    @Test
+    fun testLazyProperty (){
+        val o =  Objeto("")
+        println (o.lazyProperty)
+        println (o.lazyProperty)
+    }
+
+    @Test
+    fun testNotNullProperty (){
+        val o = Objeto("")
+        o.notNullProperty = "notNullProperty val"
+        println (o.notNullProperty)
+    }
 
 }
-data class Objeto(val nome: String)
+
+data class Objeto(val nome: String){
+    var observableProperty: String by Delegates.observable("no observableProperty") {
+        d, old, new ->
+        println("$old - $new")
+            println(d)
+    }
+    val lazyProperty : String by lazy {
+        println("Storing lazyProperty")
+        "Value of Lazy Property"
+    }
+    var notNullProperty : String by Delegates.notNull()
+}
+
+fun indexOfMax(a: IntArray): Int? {
+    if (a.isEmpty()){
+        return null
+    }
+    val ret : Int?  = a.sortedArrayDescending()[0]
+    return ret
+    arrayOf(1,2,3).reduce()
+}
+
