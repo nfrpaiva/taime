@@ -109,12 +109,3 @@ data class Objeto(val nome: String){
     var notNullProperty : String by Delegates.notNull()
 }
 
-fun indexOfMax(a: IntArray): Int? {
-    if (a.isEmpty()){
-        return null
-    }
-    val ret : Int?  = a.sortedArrayDescending()[0]
-    return ret
-    arrayOf(1,2,3).reduce()
-}
-
