@@ -63,49 +63,47 @@ class Umtest() {
     @Test
     fun filterTest() {
         val clientes = mutableListOf<Cliente>()
-        for (i in 1..10_000) {
+        val size = 100_000
+        for (i in 1..size) {
             clientes.add(Cliente(nome = "Cliente numero $i", id = i.toLong()))
         }
-
-        assertThat(clientes).hasSize(10_000)
-        assertThat(clientes.filter { it.id <= 5_000 }).hasSize(5_000)
-
-        clientes.map { it.id }.forEach { println(it) }
-
+        assertThat(clientes).hasSize(size)
+        val halfSize = size / 2
+        assertThat(clientes.filter { it.id <= halfSize }).hasSize(halfSize)
     }
 
     @Test
-    fun testDelegate (){
-        val o =  Objeto("")
+    fun testDelegate() {
+        val o = Objeto("")
         o.observableProperty = "Fernandinho"
-        o.observableProperty =  "Fernandinho Segundo"
-    }
-    @Test
-    fun testLazyProperty (){
-        val o =  Objeto("")
-        println (o.lazyProperty)
-        println (o.lazyProperty)
+        o.observableProperty = "Fernandinho Segundo"
     }
 
     @Test
-    fun testNotNullProperty (){
+    fun testLazyProperty() {
+        val o = Objeto("")
+        println(o.lazyProperty)
+        println(o.lazyProperty)
+    }
+
+    @Test
+    fun testNotNullProperty() {
         val o = Objeto("")
         o.notNullProperty = "notNullProperty val"
-        println (o.notNullProperty)
+        println(o.notNullProperty)
     }
 
 }
 
-data class Objeto(val nome: String){
-    var observableProperty: String by Delegates.observable("no observableProperty") {
-        d, old, new ->
+data class Objeto(val nome: String) {
+    var observableProperty: String by Delegates.observable("no observableProperty") { d, old, new ->
         println("$old - $new")
-            println(d)
+        println(d)
     }
-    val lazyProperty : String by lazy {
+    val lazyProperty: String by lazy {
         println("Storing lazyProperty")
         "Value of Lazy Property"
     }
-    var notNullProperty : String by Delegates.notNull()
+    var notNullProperty: String by Delegates.notNull()
 }
 
