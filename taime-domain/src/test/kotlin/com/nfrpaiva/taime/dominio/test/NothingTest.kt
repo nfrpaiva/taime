@@ -8,16 +8,17 @@ class NothingTest {
         var x = if (umaCoisa()) {
             42
         } else {
-            notfound("")
+           // notfound("Churros")
+            1
         }
         x = x + 40
     }
 
-    private fun notfound(mensagem: String):Nothing {
-           throw Exception(message = mensagem)
-    }
+//    private fun notfound(mensagem: String):Nothing {
+//           throw Exception(message = mensagem)
+//    }
 
     private fun umaCoisa(): Boolean {
-        return false
+        return true
     }
 }
