@@ -33,10 +33,28 @@ class UmTesteComEntidades {
             alunoRepository.save(Aluno(curso = curso, nome = "Aluno $i"))
         }
         val listAlunos = alunoRepository.findAll()
-        val umCurso = cursoRepository.findById(curso.id!!).get()
+        listAlunos.forEach { assertThat(it.id).isNotNull().isNotEqualTo(0) }
+        val umCurso = cursoRepository.findById(curso.id).get()
 
         assertThat(listAlunos).hasSize(size)
         assertThat(umCurso.alunos).hasSize(size)
+        println(umCurso)
+    }
+
+    @Test
+    fun testeIDsCurso(){
+        val curso = Curso()
+        assertThat(curso.id).isEqualTo(0)
+        cursoRepository.save(curso)
+        assertThat(curso.id).isNotEqualTo(0)
+    }
+
+    @Test
+    fun testIDsAluno(){
+        val aluno = Aluno(nome = "Um Aluno")
+        assertThat(aluno.id).isEqualTo(0)
+        alunoRepository.save(aluno)
+        assertThat(aluno.id).isNotEqualTo(0)
     }
 
 }
@@ -52,16 +70,16 @@ data class Aluno(
         @Id
         @GeneratedValue(strategy = SEQUENCE, generator = "SQ_ALUNO_GEN")
         @SequenceGenerator(name = "SQ_ALUNO_GEN", sequenceName = "SQ_ALUNO")
-        var id: Long? = null,
+        var id: Long = 0,
         var nome: String,
         @JsonIgnore
         @ManyToOne(cascade = [CascadeType.PERSIST])
         @JoinColumn(foreignKey = ForeignKey(name = "FK_CURSO_ID"))
-        var curso: Curso
+        var curso: Curso? = null
 
 ) {
     init {
-        curso.alunos.add(this)
+        curso?.alunos?.add(this)
     }
 
     override fun toString(): String {
@@ -75,7 +93,7 @@ data class Curso(
         @Id
         @GeneratedValue(strategy = SEQUENCE, generator = "SQ_CURSO_GEN")
         @SequenceGenerator(name = "SQ_CURSO_GEN", sequenceName = "SQ_CURSO")
-        var id: Long? = null,
+        var id: Long = 0,
         @OneToMany(mappedBy = "curso")
         var alunos: MutableList<Aluno> = mutableListOf()
 ) {
