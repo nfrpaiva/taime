@@ -2,7 +2,7 @@ package com.nfrpaiva.taime.dominio.test
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature.*
+import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import org.springframework.test.context.junit4.SpringRunner
 import javax.persistence.*
-import javax.persistence.GenerationType.*
+import javax.persistence.GenerationType.SEQUENCE
 
 
 @RunWith(SpringRunner::class)
@@ -25,13 +25,10 @@ class UmTesteComEntidades {
     lateinit var cursoRepository: CursoRepository
 
     @Test
-    fun teste() {
+    fun testOneToManyManyToOne() {
         val size = 20
-        val curso = Curso()
 
-        for (i in 1..size) {
-            alunoRepository.save(Aluno(curso = curso, nome = "Aluno $i"))
-        }
+        val curso = curso(size)
         val listAlunos = alunoRepository.findAll()
         listAlunos.forEach { assertThat(it.id).isNotNull().isNotEqualTo(0) }
         val umCurso = cursoRepository.findById(curso.id).get()
@@ -42,7 +39,22 @@ class UmTesteComEntidades {
     }
 
     @Test
-    fun testeIDsCurso(){
+    fun testFilrarAlunos() {
+        val curso = curso(20)
+        assertThat(curso.alunos).hasSize(20)
+        assertThat(curso.alunos.filter { it.id % 2 == 0L }).hasSize(20 / 2)
+    }
+
+    private fun curso(alunos: Int): Curso {
+        val curso = Curso()
+        for (i in 1..alunos) {
+            alunoRepository.save(Aluno(curso = curso, nome = "Aluno $i"))
+        }
+        return curso
+    }
+
+    @Test
+    fun testeIDsCurso() {
         val curso = Curso()
         assertThat(curso.id).isEqualTo(0)
         cursoRepository.save(curso)
@@ -50,11 +62,12 @@ class UmTesteComEntidades {
     }
 
     @Test
-    fun testIDsAluno(){
+    fun testIDsAluno() {
         val aluno = Aluno(nome = "Um Aluno")
         assertThat(aluno.id).isEqualTo(0)
         alunoRepository.save(aluno)
         assertThat(aluno.id).isNotEqualTo(0)
+        println(aluno)
     }
 
 }
@@ -77,9 +90,11 @@ data class Aluno(
         @JoinColumn(foreignKey = ForeignKey(name = "FK_CURSO_ID"))
         var curso: Curso? = null
 
+
 ) {
     init {
         curso?.alunos?.add(this)
+        println("Iniciando $nome com id $id")
     }
 
     override fun toString(): String {
