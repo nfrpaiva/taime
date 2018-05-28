@@ -58,7 +58,7 @@ class UmTesteComEntidades {
     private fun curso(alunos: Int): Curso {
         val curso = Curso()
         for (i in 1..alunos) {
-            alunoRepository.save(Aluno(curso = curso, nome = "Aluno $i"))
+            alunoRepository.save(Aluno(nome = "Aluno $i").curso(curso))
         }
         return curso
     }

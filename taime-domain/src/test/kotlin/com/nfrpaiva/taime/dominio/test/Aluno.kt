@@ -9,17 +9,18 @@ data class Aluno(
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_ALUNO_GEN")
         @SequenceGenerator(name = "SQ_ALUNO_GEN", sequenceName = "SQ_ALUNO")
         var id: Long = 0,
-        var nome: String,
-        @JsonIgnore
-        @ManyToOne(cascade = [(CascadeType.PERSIST)])
-        @JoinColumn(foreignKey = ForeignKey(name = "FK_CURSO_ID"))
-        var curso: Curso? = null
+        var nome: String
+        ) {
 
+    @JsonIgnore
+    @ManyToOne(cascade = [(CascadeType.PERSIST)])
+    @JoinColumn(foreignKey = ForeignKey(name = "FK_CURSO_ID"))
+    lateinit var curso: Curso
 
-) {
-    init {
-        curso?.alunos?.add(this)
-        println("Iniciando $nome com id $id")
+    fun curso(curso: Curso): Aluno {
+        this.curso = curso
+        this.curso.alunos.add(this)
+        return this
     }
 
     override fun toString(): String {
