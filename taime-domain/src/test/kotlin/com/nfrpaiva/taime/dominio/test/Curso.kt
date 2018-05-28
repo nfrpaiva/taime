@@ -9,10 +9,25 @@ data class Curso(
         @SequenceGenerator(name = "SQ_CURSO_GEN", sequenceName = "SQ_CURSO")
         var id: Long = 0
 ) {
-    @ManyToMany(mappedBy = "cursos")
-    val alunos: MutableSet<Aluno> = mutableSetOf()
+    @ManyToMany(mappedBy = "_cursos")
+    private val _alunos: MutableSet<Aluno> = mutableSetOf()
 
     override fun toString(): String {
         return "Curso: ${this.json()}"
+    }
+
+    val alunos: Set<Aluno>
+        get() {
+            return _alunos.toSet()
+        }
+
+    fun addAluno(aluno: Aluno) {
+        _alunos.add(aluno)
+        if (!aluno.cursos.contains(this)) aluno.addCurso(this)
+    }
+
+    fun removeAluno(aluno: Aluno) {
+        _alunos.remove(aluno)
+        if (aluno.cursos.contains(this)) aluno.removeCurso(this)
     }
 }
