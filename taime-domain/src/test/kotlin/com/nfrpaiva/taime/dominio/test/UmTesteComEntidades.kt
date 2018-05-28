@@ -19,7 +19,7 @@ class UmTesteComEntidades {
     lateinit var cursoRepository: CursoRepository
 
     @Autowired
-    lateinit var em:EntityManager
+    lateinit var em: EntityManager
 
     @Test
     fun testOneToManyManyToOne() {
@@ -36,9 +36,9 @@ class UmTesteComEntidades {
 
     @Test
     fun testFilrarAlunos() {
-        val curso = curso(20)
-        assertThat(curso.alunos).hasSize(20)
-        assertThat(curso.alunos.filter { it.id % 2 == 0L }).hasSize(20 / 2)
+        val result = cursoRepository.findById(curso(20).id).get()
+        assertThat(result.alunos).hasSize(20)
+        assertThat(result.alunos.filter { it.id % 2 == 0L }).hasSize(20 / 2)
     }
 
     @Test
@@ -63,7 +63,7 @@ class UmTesteComEntidades {
         for (i in 1..alunos) {
             val aluno = Aluno(nome = "Aluno $i")
             aluno.cursos.add(curso)
-            curso.alunos.add(aluno)
+            //curso.alunos.add(aluno)
             alunoRepository.saveAndFlush(aluno)
         }
         em.clear()
