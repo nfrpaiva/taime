@@ -9,7 +9,7 @@ data class Curso(
         @SequenceGenerator(name = "SQ_CURSO_GEN", sequenceName = "SQ_CURSO")
         var id: Long = 0
 ) {
-    @ManyToMany(mappedBy = "_cursos")
+    @ManyToMany(mappedBy = "_cursos", cascade = [CascadeType.PERSIST])
     private val _alunos: MutableSet<Aluno> = mutableSetOf()
 
     override fun toString(): String {

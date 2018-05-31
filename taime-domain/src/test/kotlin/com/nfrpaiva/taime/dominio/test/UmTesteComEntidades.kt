@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit4.SpringRunner
-import javax.persistence.EntityManager
 
 
 @RunWith(SpringRunner::class)
@@ -20,8 +19,9 @@ class UmTesteComEntidades {
 
     @Test
     fun testOneToManyManyToOne() {
-        val size = 2
+        val size = 20
         val curso = curso(size)
+        cursoRepository.save(curso)
         val listAlunos = alunoRepository.findAll()
         listAlunos.forEach { assertThat(it.id).isNotNull().isNotEqualTo(0) }
         val umCurso = cursoRepository.findById(curso.id).get()
@@ -31,7 +31,7 @@ class UmTesteComEntidades {
 
     @Test
     fun testFilrarAlunos() {
-        val result = cursoRepository.findById(curso(20).id).get()
+        val result = cursoRepository.findById(cursoRepository.save(curso(20)).id).get()
         assertThat(result.alunos).hasSize(20)
         assertThat(result.alunos.filter { it.id % 2 == 0L }).hasSize(20 / 2)
     }
@@ -50,14 +50,12 @@ class UmTesteComEntidades {
         assertThat(aluno.id).isEqualTo(0)
         alunoRepository.save(aluno)
         assertThat(aluno.id).isNotEqualTo(0)
-        println(aluno)
     }
 
     private fun curso(alunos: Int): Curso {
         val curso = Curso()
         for (i in 1..alunos) {
-            val aluno = Aluno(nome = "Aluno $i",cursos = curso)
-            alunoRepository.saveAndFlush(aluno)
+            curso.addAluno(Aluno(nome = "Aluno $i"))
         }
         return curso
     }

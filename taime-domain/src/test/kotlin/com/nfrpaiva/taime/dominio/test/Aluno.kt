@@ -14,10 +14,10 @@ data class Aluno(
         var nome: String
 ) {
 
-    constructor(nome: String, vararg  cursos: Curso) : this(nome = nome) {
-        cursos.forEach { addCurso(it) }
-        Lists.newArrayList("")
-    }
+//    constructor(nome: String, vararg  cursos: Curso) : this(nome = nome) {
+//        cursos.forEach { addCurso(it) }
+//        Lists.newArrayList("")
+//    }
 
     @JsonIgnore
     @ManyToMany(cascade = [PERSIST])
