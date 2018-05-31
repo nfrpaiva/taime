@@ -9,5 +9,7 @@ import javax.persistence.OneToMany
 data class Pai(@Id var id: Long, var nome: String) {
     @OneToMany(mappedBy = "pai", cascade = [(CascadeType.ALL)], orphanRemoval = true)
     var filhos: MutableSet<Filho> = mutableSetOf()
+    @OneToMany(mappedBy = "pai", cascade = [(CascadeType.ALL)], orphanRemoval = true)
+    var filhas: MutableSet<Filha> = mutableSetOf()
 
 }

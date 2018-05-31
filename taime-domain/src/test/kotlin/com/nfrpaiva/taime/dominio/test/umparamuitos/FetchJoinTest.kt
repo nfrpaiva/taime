@@ -80,11 +80,41 @@ class FetchJoinTest {
         assertThat(list[0].filhos).hasSize(2)
     }
 
+    @Test
+    fun `pai um filho e uma filha`() {
+        val query = "select p from Pai p join fetch p.filhos f1 join fetch p.filhas f2 where f1.id = 1 and f2.id = 1"
+        val list = em.createQuery(query, Pai::class.java).resultList
+        assertThat(list).hasSize(1)
+        assertThat(list[0].filhos).hasSize(1)
+        assertThat(list[0].filhas).hasSize(1)
+        assertThat(list[0].filhos.iterator().next().id).isEqualTo(1)
+        assertThat(list[0].filhas.iterator().next().id).isEqualTo(1)
+    }
+
+    @Test
+    fun `pai um filho e duas filha`() {
+        val query = "select distinct p from Pai p " +
+                "join fetch p.filhos f1 " +
+                "join fetch p.filhas f2 " +
+                "where f1.id = 1 and f2.id in (1,2)"
+        val list = em.createQuery(query, Pai::class.java).resultList
+        assertThat(list).hasSize(1)
+        assertThat(list[0].filhos).hasSize(1)
+        assertThat(list[0].filhas).hasSize(2)
+        assertThat(list[0].filhos.iterator().next().id).isEqualTo(1)
+        assertThat(list[0].filhas.map { it.id }).containsAll(listOf(1L, 2L))
+    }
+
     private fun pai(): Pai {
         val pai = Pai(id = 1, nome = "Um Pai")
         pai.filhos = mutableSetOf(
                 Filho(nome = "Filho 1", id = 1, pai = pai),
                 Filho(nome = "Filho 2", id = 2, pai = pai)
+        )
+        pai.filhas = mutableSetOf(
+                Filha(nome = "Filha 1", id = 1, pai = pai),
+                Filha(nome = "Filha 2", id = 2, pai = pai),
+                Filha(nome = "Filha 3", id = 3, pai = pai)
         )
         return pai
     }
