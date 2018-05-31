@@ -1,7 +1,7 @@
-package com.nfrpaiva.taime.dominio.test
+package com.nfrpaiva.taime.dominio.test.muitosparamuitos
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.assertj.core.util.Lists
+import com.nfrpaiva.taime.infra.json
 import javax.persistence.*
 import javax.persistence.CascadeType.PERSIST
 

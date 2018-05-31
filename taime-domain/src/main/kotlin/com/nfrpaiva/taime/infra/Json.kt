@@ -1,4 +1,4 @@
-package com.nfrpaiva.taime.dominio.test
+package com.nfrpaiva.taime.infra
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature

@@ -1,5 +1,6 @@
-package com.nfrpaiva.taime.dominio.test
+package com.nfrpaiva.taime.dominio.test.muitosparamuitos
 
+import com.nfrpaiva.taime.infra.json
 import javax.persistence.*
 
 @Entity

@@ -1,15 +1,21 @@
-package com.nfrpaiva.taime.dominio.test
+package com.nfrpaiva.taime.dominio.test.muitosparamuitos
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.test.context.junit4.SpringRunner
 
 
 @RunWith(SpringRunner::class)
-@DataJpaTest
+@DataJpaTest(showSql = true)
+@ComponentScan(basePackageClasses = [UmTesteComEntidades::class])
+@EnableJpaRepositories( basePackageClasses = [UmTesteComEntidades::class])
+@EntityScan(basePackageClasses = [UmTesteComEntidades::class])
 class UmTesteComEntidades {
 
     @Autowired
