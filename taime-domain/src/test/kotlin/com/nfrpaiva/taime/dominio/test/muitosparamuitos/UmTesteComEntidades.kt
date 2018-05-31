@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @RunWith(SpringRunner::class)
 @DataJpaTest(showSql = true)
 @ComponentScan(basePackageClasses = [UmTesteComEntidades::class])
-@EnableJpaRepositories( basePackageClasses = [UmTesteComEntidades::class])
+@EnableJpaRepositories(basePackageClasses = [UmTesteComEntidades::class])
 @EntityScan(basePackageClasses = [UmTesteComEntidades::class])
 class UmTesteComEntidades {
 
@@ -37,7 +37,8 @@ class UmTesteComEntidades {
 
     @Test
     fun testFilrarAlunos() {
-        val result = cursoRepository.findById(cursoRepository.save(curso(20)).id).get()
+        val curso = cursoRepository.save(curso(20))
+        val result = cursoRepository.findById(curso.id).get()
         assertThat(result.alunos).hasSize(20)
         assertThat(result.alunos.filter { it.id % 2 == 0L }).hasSize(20 / 2)
     }
