@@ -22,7 +22,7 @@ class QueryUmParaMuitosTest {
 
     @SpringBootApplication
     @Configuration
-    class Inner {
+    private class Inner {
 
     }
 
