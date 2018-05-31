@@ -64,8 +64,9 @@ class QueryUmParaMuitosTest {
 
 @Entity
 data class Pai(@Id var id: Long, var nome: String) {
-    @OneToMany(mappedBy = "pai", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pai", cascade = [CascadeType.ALL], orphanRemoval = true)
     var filhos: MutableSet<Filho> = mutableSetOf()
+
 }
 
 @Entity
