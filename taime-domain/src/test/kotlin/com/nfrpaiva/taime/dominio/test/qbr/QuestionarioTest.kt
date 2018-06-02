@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.nfrpaiva.taime.infra.json
 import org.assertj.core.api.Assertions.assertThat
-import org.hibernate.annotations.ManyToAny
 import org.jetbrains.annotations.NotNull
 import org.junit.After
 import org.junit.Before
@@ -56,19 +55,19 @@ class QuestionarioTest {
         em.persist(questionario1Pergunta2)
         em.flush()
 
-        val qpResposta1 = QuestionarioPerguntaResposta(1L, questionario1Pergunta1, resposta1, 1)
-        val qpResposta2 = QuestionarioPerguntaResposta(2L, questionario1Pergunta1, resposta2, 2)
-        val qpResposta3 = QuestionarioPerguntaResposta(3L, questionario1Pergunta2, resposta3, 1)
-        val qpResposta4 = QuestionarioPerguntaResposta(4L, questionario1Pergunta2, resposta4, 2)
-
-        questionario1Pergunta2.questionarioRespostaPai = qpResposta2
-
+        val qpResposta1 = QuestionarioPerguntaResposta(questionario1Pergunta1, resposta1, 1)
+        val qpResposta2 = QuestionarioPerguntaResposta(questionario1Pergunta1, resposta2, 2)
+        val qpResposta3 = QuestionarioPerguntaResposta(questionario1Pergunta2, resposta3, 1)
+        val qpResposta4 = QuestionarioPerguntaResposta(questionario1Pergunta2, resposta4, 2)
 
         em.persist(qpResposta1)
         em.persist(qpResposta2)
         em.persist(qpResposta3)
         em.persist(qpResposta4)
 
+        em.flush()
+        questionario1Pergunta2.questionarioRespostaPai = qpResposta2
+        em.flush()
 
         em.flush()
         em.clear()
@@ -85,11 +84,11 @@ class QuestionarioTest {
         assertThat(questionarioPergunta1.respostas).hasSize(2)
         assertThat(questionarioPergunta2.respostas).hasSize(2)
 
-        assertThat(questionarioPergunta1.respostas.filter { it.id == 1L }[0].resposta.descricao).isEqualTo("Novo")
-        assertThat(questionarioPergunta2.respostas.filter { it.id == 4L }[0].resposta.descricao).isEqualTo("Sompo")
+        assertThat(questionarioPergunta1.respostas.filter { it.resposta.codigo == 1L }[0].resposta.descricao).isEqualTo("Novo")
+        assertThat(questionarioPergunta2.respostas.filter { it.resposta.codigo == 4L }[0].resposta.descricao).isEqualTo("Sompo")
 
         assertThat(questionarioPergunta1.respostas[1].questionarioPerguntaDependentes).hasSize(1)
-        assertThat(questionarioPergunta2.questionarioRespostaPai).isEqualTo(questionarioPergunta1.respostas.filter { it.id == 2L }[0])
+        assertThat(questionarioPergunta2.questionarioRespostaPai).isEqualTo(questionarioPergunta1.respostas.filter { it.resposta.codigo == 2L }[0])
 
         println(questionario.json())
     }
@@ -106,7 +105,12 @@ class QuestionarioTest {
 
     @After
     fun cleanup() {
-        em.createQuery("update QuestionarioPergunta a set a.questionarioRespostaPai = null").executeUpdate()
+        em.createQuery("select x from QuestionarioPergunta x", QuestionarioPergunta::class.java).resultList.forEach {
+            it.questionarioRespostaPai =  null
+        }
+        // TODO: DESCOBRIR COMO FAZER ISSO FUNCIONAR
+        //em.createQuery("update QuestionarioPergunta a set a.questionarioRespostaPai = NULL") .executeUpdate()
+        em.flush()
         em.createQuery("delete from QuestionarioPerguntaResposta").executeUpdate()
         em.createQuery("delete from QuestionarioPergunta").executeUpdate()
         em.createQuery("delete from Questionario").executeUpdate()
@@ -118,39 +122,17 @@ class QuestionarioTest {
 }
 
 @Entity
-@JsonPropertyOrder(value = ["id", "perguntas"])
+@JsonPropertyOrder(value = ["codigo", "perguntas"])
 data class Questionario(@Id
                         @Column(name = "COD_QUESTIONARIO", columnDefinition = "NUMBER(11)")
-                        val id: Long) {
+                        val codigo: Long) {
     @OneToMany(mappedBy = "questionario")
     val perguntas: List<QuestionarioPergunta> = mutableListOf()
 }
 
-class QuestionarioPerguntaID : Serializable {
-    val questionario: Questionario? = null
-    val pergunta: Pergunta? = null
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as QuestionarioPerguntaID
-
-        if (questionario != other.questionario) return false
-        if (pergunta != other.pergunta) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = questionario?.hashCode() ?: 0
-        result = 31 * result + (pergunta?.hashCode() ?: 0)
-        return result
-    }
-
-}
-
+data class QuestionarioPerguntaID(val questionario: Questionario? = null, val pergunta: Pergunta? = null) : Serializable
 @Entity
-@JsonPropertyOrder(value = ["id", "pergunta", "respostas"])
+@JsonPropertyOrder(value = ["pergunta", "respostas", "ordem"])
 @Table(uniqueConstraints = [UniqueConstraint(name = "UK_QP_ORDEM", columnNames = ["ordem", "COD_QUESTIONARIO"])])
 @IdClass(QuestionarioPerguntaID::class)
 data class QuestionarioPergunta(@Id
@@ -169,18 +151,24 @@ data class QuestionarioPergunta(@Id
 ) {
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(foreignKey = ForeignKey(name = "FK_QP_TO_QPR"))
+    @JoinColumns(value = [
+        JoinColumn(name = "COD_QUESTIONARIO_PAI", referencedColumnName = "COD_QUESTIONARIO"),
+        JoinColumn(name = "COD_PERGUNTA_PAI", referencedColumnName = "COD_PERGUNTA"),
+        JoinColumn(name = "COD_RESPOSTA_PAI", referencedColumnName = "COD_RESPOSTA")],
+            foreignKey = ForeignKey(name = "FK_QP_TO_QPR"))
+
     var questionarioRespostaPai: QuestionarioPerguntaResposta? = null
     @OneToMany(mappedBy = "questionarioPergunta")
     val respostas: List<QuestionarioPerguntaResposta> = mutableListOf()
 }
 
+data class QuestionarioPerguntaRespostaID(var questionarioPergunta: QuestionarioPergunta? = null, var resposta: Resposta? = null) : Serializable
+@JsonPropertyOrder(value = ["questionarioPergunta", "resposta", "ordem","questionarioPerguntaDependentes"])
 @Entity
 @Table(uniqueConstraints = [UniqueConstraint(name = "UK_QPR_ORDEM", columnNames = ["ordem", "COD_QUESTIONARIO", "COD_PERGUNTA"])])
+@IdClass(QuestionarioPerguntaRespostaID::class)
 data class QuestionarioPerguntaResposta(
         @Id
-        @Column(columnDefinition = "NUMBER(11)")
-        val id: Long,
         @JsonIgnore
         @ManyToOne
         @JoinColumns(value = [
@@ -188,6 +176,7 @@ data class QuestionarioPerguntaResposta(
             JoinColumn(name = "COD_PERGUNTA", referencedColumnName = "COD_PERGUNTA")
         ], foreignKey = ForeignKey(name = "FK_QPR_TO_QP"))
         val questionarioPergunta: QuestionarioPergunta,
+        @Id
         @ManyToOne
         @JoinColumn(name = "COD_RESPOSTA", foreignKey = ForeignKey(name = "FK_QPR_TO_R"))
         val resposta: Resposta,
@@ -199,8 +188,10 @@ data class QuestionarioPerguntaResposta(
     val questionarioPerguntaDependentes: List<QuestionarioPergunta> = mutableListOf()
 
     override fun toString(): String {
-        return "QuestionarioPerguntaResposta(id=$id)"
+        return "QuestionarioPerguntaResposta(questionarioPergunta=$questionarioPergunta, resposta=$resposta)"
     }
+
+
 }
 
 @Entity
