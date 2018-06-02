@@ -1,10 +1,7 @@
 package com.nfrpaiva.taime.dominio.test.qbr
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.nfrpaiva.taime.infra.json
 import org.assertj.core.api.Assertions.assertThat
-import org.jetbrains.annotations.NotNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -16,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.test.annotation.Commit
 import org.springframework.test.context.junit4.SpringRunner
-import java.io.Serializable
 import javax.persistence.*
 
 @RunWith(SpringRunner::class)
@@ -120,90 +116,3 @@ class QuestionarioTest {
         em.clear()
     }
 }
-
-@Entity
-@JsonPropertyOrder(value = ["codigo", "perguntas"])
-data class Questionario(@Id
-                        @Column(name = "COD_QUESTIONARIO", columnDefinition = "NUMBER(11)")
-                        val codigo: Long) {
-    @OneToMany(mappedBy = "questionario")
-    val perguntas: List<QuestionarioPergunta> = mutableListOf()
-}
-
-data class QuestionarioPerguntaID(val questionario: Questionario? = null, val pergunta: Pergunta? = null) : Serializable
-@Entity
-@JsonPropertyOrder(value = ["pergunta", "respostas", "ordem"])
-@Table(uniqueConstraints = [UniqueConstraint(name = "UK_QP_ORDEM", columnNames = ["ordem", "COD_QUESTIONARIO"])])
-@IdClass(QuestionarioPerguntaID::class)
-data class QuestionarioPergunta(@Id
-                                @JsonIgnore
-                                @ManyToOne
-                                @JoinColumn(name = "COD_QUESTIONARIO", foreignKey = ForeignKey(name = "FK_QP_TO_Q"))
-                                val questionario: Questionario,
-                                @Id
-                                @ManyToOne
-                                @JoinColumn(name = "COD_PERGUNTA", foreignKey = ForeignKey(name = "FK_QP_TO_P"))
-                                val pergunta: Pergunta,
-                                @NotNull
-                                @Column(columnDefinition = "NUMBER(11)")
-                                val ordem: Int
-
-) {
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumns(value = [
-        JoinColumn(name = "COD_QUESTIONARIO_PAI", referencedColumnName = "COD_QUESTIONARIO"),
-        JoinColumn(name = "COD_PERGUNTA_PAI", referencedColumnName = "COD_PERGUNTA"),
-        JoinColumn(name = "COD_RESPOSTA_PAI", referencedColumnName = "COD_RESPOSTA")],
-            foreignKey = ForeignKey(name = "FK_QP_TO_QPR"))
-
-    var questionarioRespostaPai: QuestionarioPerguntaResposta? = null
-    @OneToMany(mappedBy = "questionarioPergunta")
-    val respostas: List<QuestionarioPerguntaResposta> = mutableListOf()
-}
-
-data class QuestionarioPerguntaRespostaID(var questionarioPergunta: QuestionarioPergunta? = null, var resposta: Resposta? = null) : Serializable
-@JsonPropertyOrder(value = ["questionarioPergunta", "resposta", "ordem","questionarioPerguntaDependentes"])
-@Entity
-@Table(uniqueConstraints = [UniqueConstraint(name = "UK_QPR_ORDEM", columnNames = ["ordem", "COD_QUESTIONARIO", "COD_PERGUNTA"])])
-@IdClass(QuestionarioPerguntaRespostaID::class)
-data class QuestionarioPerguntaResposta(
-        @Id
-        @JsonIgnore
-        @ManyToOne
-        @JoinColumns(value = [
-            JoinColumn(name = "COD_QUESTIONARIO", referencedColumnName = "COD_QUESTIONARIO"),
-            JoinColumn(name = "COD_PERGUNTA", referencedColumnName = "COD_PERGUNTA")
-        ], foreignKey = ForeignKey(name = "FK_QPR_TO_QP"))
-        val questionarioPergunta: QuestionarioPergunta,
-        @Id
-        @ManyToOne
-        @JoinColumn(name = "COD_RESPOSTA", foreignKey = ForeignKey(name = "FK_QPR_TO_R"))
-        val resposta: Resposta,
-        @NotNull
-        @Column(columnDefinition = "NUMBER(11)")
-        val ordem: Int
-) {
-    @OneToMany(mappedBy = "questionarioRespostaPai")
-    val questionarioPerguntaDependentes: List<QuestionarioPergunta> = mutableListOf()
-
-    override fun toString(): String {
-        return "QuestionarioPerguntaResposta(questionarioPergunta=$questionarioPergunta, resposta=$resposta)"
-    }
-
-
-}
-
-@Entity
-data class Pergunta(@Id
-                    @Column(name = "COD_PERGUNTA", columnDefinition = "NUMBER(11)")
-                    val codigo: Long,
-                    @Column(columnDefinition = "VARCHAR2(255)")
-                    val descricao: String)
-
-@Entity
-data class Resposta(@Id
-                    @Column(name = "COD_RESPOSTA", columnDefinition = "NUMBER(11)")
-                    val codigo: Long,
-                    @Column(columnDefinition = "VARCHAR2(255)")
-                    val descricao: String)
