@@ -27,7 +27,7 @@ data class QuestionarioPerguntaResposta(
         val ordem: Int
 ) {
     @OneToMany(mappedBy = "questionarioRespostaPai")
-    val questionarioPerguntaDependentes: List<QuestionarioPergunta> = mutableListOf()
+    val questionarioPerguntaDependentes: MutableList<QuestionarioPergunta> = mutableListOf()
 
     override fun toString(): String {
         return "QuestionarioPerguntaResposta(questionarioPergunta=$questionarioPergunta, resposta=$resposta)"

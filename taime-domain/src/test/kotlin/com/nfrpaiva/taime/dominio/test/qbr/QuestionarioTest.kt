@@ -101,9 +101,11 @@ class QuestionarioTest {
 
     @After
     fun cleanup() {
+
         em.createQuery("select x from QuestionarioPergunta x", QuestionarioPergunta::class.java).resultList.forEach {
             it.questionarioRespostaPai =  null
         }
+
         // TODO: DESCOBRIR COMO FAZER ISSO FUNCIONAR
         //em.createQuery("update QuestionarioPergunta a set a.questionarioRespostaPai = NULL") .executeUpdate()
         em.flush()
