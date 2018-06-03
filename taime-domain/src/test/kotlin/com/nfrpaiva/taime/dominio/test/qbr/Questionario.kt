@@ -10,7 +10,10 @@ import javax.persistence.OneToMany
 @JsonPropertyOrder(value = ["codigo", "perguntas"])
 data class Questionario(@Id
                         @Column(name = "COD_QUESTIONARIO", columnDefinition = "NUMBER(11)")
-                        val codigo: Long) {
+                        val codigo: Long,
+                        @Column(columnDefinition = "VARCHAR2(255)")
+                        val descricao: String
+) {
     @OneToMany(mappedBy = "questionario")
     val perguntas: List<QuestionarioPergunta> = mutableListOf()
 }

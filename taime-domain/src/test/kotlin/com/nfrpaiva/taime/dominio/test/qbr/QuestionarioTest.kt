@@ -28,7 +28,7 @@ class QuestionarioTest {
 
     @Before
     fun criar() {
-        val questionario = Questionario(1L)
+        val questionario = Questionario(1L, "Questionário Produto APP")
         em.persist(questionario)
 
         val pergunta1 = Pergunta(1L, "Tipo Seguro")
