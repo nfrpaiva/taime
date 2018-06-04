@@ -102,19 +102,22 @@ class QuestionarioTest {
     @After
     fun cleanup() {
 
-        em.createQuery("select x from QuestionarioPergunta x", QuestionarioPergunta::class.java).resultList.forEach {
-            it.questionarioRespostaPai =  null
+        em.createQuery("select x from QuestionarioPergunta x", QuestionarioPergunta::class.java)
+                .resultList
+                .forEach {
+                    it.questionarioRespostaPai = null
+                }
+        em.flush()
+        listOf(
+                em.createQuery("delete from QuestionarioPerguntaResposta"),
+                em.createQuery("delete from QuestionarioPergunta"),
+                em.createQuery("delete from Questionario"),
+                em.createQuery("delete from Pergunta"),
+                em.createQuery("delete from Resposta")
+        ).forEach {
+            it.executeUpdate()
+            em.flush()
         }
-
-        // TODO: DESCOBRIR COMO FAZER ISSO FUNCIONAR
-        //em.createQuery("update QuestionarioPergunta a set a.questionarioRespostaPai = NULL") .executeUpdate()
-        em.flush()
-        em.createQuery("delete from QuestionarioPerguntaResposta").executeUpdate()
-        em.createQuery("delete from QuestionarioPergunta").executeUpdate()
-        em.createQuery("delete from Questionario").executeUpdate()
-        em.createQuery("delete from Pergunta").executeUpdate()
-        em.createQuery("delete from Resposta").executeUpdate()
-        em.flush()
         em.clear()
     }
 }
