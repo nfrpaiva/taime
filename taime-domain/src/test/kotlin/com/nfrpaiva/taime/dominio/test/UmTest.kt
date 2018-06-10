@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import kotlin.properties.Delegates
 
-// TODO: Nao faz parte do projeto. é apenas um teste
 class Umtest() {
 
     @Test
