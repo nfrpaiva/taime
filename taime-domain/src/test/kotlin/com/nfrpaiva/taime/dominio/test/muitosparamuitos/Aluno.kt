@@ -14,11 +14,6 @@ data class Aluno(
         var nome: String
 ) {
 
-//    constructor(nome: String, vararg  cursos: Curso) : this(nome = nome) {
-//        cursos.forEach { addCurso(it) }
-//        Lists.newArrayList("")
-//    }
-
     @JsonIgnore
     @ManyToMany(cascade = [PERSIST])
     @JoinTable(name = "aluno_has_cursos")
