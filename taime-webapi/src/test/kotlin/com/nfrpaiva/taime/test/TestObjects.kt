@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.nfrpaiva.taime.dominio.Apontamento
 import com.nfrpaiva.taime.dominio.Cliente
 import com.nfrpaiva.taime.dominio.Trabalho
+import org.slf4j.LoggerFactory
 import java.util.*
 
-class TestObjects
+class TestObjects{
+}
+    val log = LoggerFactory.getLogger(TestObjects::class.java)
 
 fun trabalho(): Trabalho {
 
@@ -19,7 +22,7 @@ fun cliente(): Cliente {
 
 fun Any.json(mapper: ObjectMapper): String {
     val result = mapper.writeValueAsString(this)
-    println(result)
+    log.debug(result)
     return result
 }
 
