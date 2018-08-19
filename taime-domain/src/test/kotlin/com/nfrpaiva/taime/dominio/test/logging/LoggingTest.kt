@@ -18,8 +18,6 @@ class LoggingTest {
     fun logIt() {
         log.error("Falhou")
         log.info("Não falhou")
-//        val lc = LoggerFactory.getILoggerFactory() as LoggerContext
-//        StatusPrinter.print(lc)
     }
 
 }
