@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import kotlin.properties.Delegates
 
-class Umtest() {
+class Umtest {
 
     @Test
     fun test() {

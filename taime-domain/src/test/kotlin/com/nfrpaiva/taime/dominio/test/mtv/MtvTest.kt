@@ -17,8 +17,7 @@ class MtvTest {
 
     @Test
     fun someTest() {
-        val x = Pessoa.comNomeDe("Nilton")
-        assertThat(x.falarNome()).isEqualTo("Meu nome é Nilton")
+        assertThat(Pessoa.comNomeDe("Nilton").falarNome()).isEqualTo("Meu nome é Nilton")
         assertThat(Pessoa("Nilton")).isEqualTo(Pessoa("Nilton"))
         assertThat(Pessoa("Jonh Doe")).isNotEqualTo(Pessoa("Nilton"))
         assertThat(service).isNotNull
