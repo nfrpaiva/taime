@@ -17,17 +17,17 @@ class Umtest() {
     @Test
     fun list() {
         val list = listOf("a", "b")
-        assertThat(list.filter { it.equals("a") }.size).isEqualTo(1)
+        assertThat(list.filter { it == "a" }.size).isEqualTo(1)
         val map = list.map { Objeto(it) }
         assertThat(map[0]).isEqualTo(Objeto("a"))
     }
 
     @Test
     fun lambda() {
-        val x = listOf(1, 2, 3).fold(1, { a: Int, b: Int ->
+        val x = listOf(1, 2, 3).fold(1) { a: Int, b: Int ->
             println("$a + $b = ${a + b}")
             a + b
-        })
+        }
         println("Resultado = $x")
 
         assertThat(listOf(2, 2).fold(0, Int::plus)).isEqualTo(4)
@@ -35,7 +35,7 @@ class Umtest() {
 
     @Test
     fun myLambTest() {
-        val value = myFun(1, { a -> a * 2 })
+        val value = myFun(1) { a -> a * 2 }
         println("value = $value")
     }
 

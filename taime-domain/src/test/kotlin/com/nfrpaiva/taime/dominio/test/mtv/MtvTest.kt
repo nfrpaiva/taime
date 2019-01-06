@@ -25,10 +25,6 @@ class MtvTest {
         assertThat(service.somar(1, 1)).isEqualTo(2)
     }
 
-    @Test
-    fun callSomeShit(){
-        var x = RestTemplateBuilder().build()
-    }
     @Configuration
     class Config {
         @Bean
