@@ -2,6 +2,7 @@ package com.nfrpaiva.taime.dominio.test.lang
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import java.util.*
 
 class LangTest {
 
@@ -23,6 +24,18 @@ class LangTest {
         1.rangeTo(100).step(2).forEach {
             assertThat(it % 2).isNotEqualTo(0)
         }
+    }
+
+    @Test
+    fun uuidTest() {
+        var uuids = mutableSetOf<String>()
+        val rangeSize = 1_000
+        for (i in 1 .. rangeSize) {
+            val uuid: String = UUID.randomUUID().toString()
+            println("Adicionando  $uuid")
+            uuids.add(uuid)
+        }
+        assertThat(uuids.size).isEqualTo(rangeSize)
     }
 
 }
