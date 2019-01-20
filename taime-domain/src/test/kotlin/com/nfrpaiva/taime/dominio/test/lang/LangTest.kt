@@ -30,7 +30,7 @@ class LangTest {
     fun uuidTest() {
         var uuids = mutableSetOf<String>()
         val rangeSize = 1_000
-        for (i in 1 .. rangeSize) {
+        for (i in 1..rangeSize) {
             val uuid: String = UUID.randomUUID().toString()
             println("Adicionando  $uuid")
             uuids.add(uuid)

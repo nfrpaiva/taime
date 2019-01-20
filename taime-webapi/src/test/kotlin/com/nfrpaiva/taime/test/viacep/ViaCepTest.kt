@@ -21,6 +21,23 @@ class ViaCepTest {
         }
     }
 
+    @Test
+    fun listaCep() {
+        var result = template.getForEntity("https://viacep.com.br/ws/SP/Osasco/vitorio/json", emptyArray<RespostaCep>().javaClass)
+        assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(result.body).isNotNull
+        var resposta = result.body!!
+
+        with(resposta[0]!!) {
+            assertThat(cep).isEqualTo("06070-220")
+            assertThat(localidade).isEqualTo("Osasco")
+        }
+        with(resposta[1]!!) {
+            assertThat(cep).isEqualTo("06192-150")
+            assertThat(localidade).isEqualTo("Osasco")
+        }
+    }
+
     data class RespostaCep(var cep: String = "", var localidade: String = "")
 
 }
