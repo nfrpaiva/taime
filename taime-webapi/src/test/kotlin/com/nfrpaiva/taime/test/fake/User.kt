@@ -1,9 +1,14 @@
 package com.nfrpaiva.taime.test.fake
 
+import javax.persistence.*
+
+@Entity
 data class User(
-        var id: Int,
-        var name: String,
-        var email: String,
-        var phone: String,
-        var address: Address
+        @Id
+        var id: Int? = null,
+        var name: String? = null,
+        var email: String? = null,
+        var phone: String? = null,
+        @ManyToOne(cascade = [CascadeType.ALL])
+        var address: Address? = null
 )

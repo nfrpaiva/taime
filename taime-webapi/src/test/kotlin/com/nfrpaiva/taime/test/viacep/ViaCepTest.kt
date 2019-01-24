@@ -2,7 +2,7 @@ package com.nfrpaiva.taime.test.viacep
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
 import org.springframework.web.client.RestTemplate
 
 class ViaCepTest {
@@ -13,7 +13,7 @@ class ViaCepTest {
     fun consultarCep() {
         val url = "https://viacep.com.br/ws/06192150/json/"
         val result = template.getForEntity(url, RespostaCep::class.java)
-        assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(result.statusCode).isEqualTo(OK)
         assertThat(result.body).isNotNull
         val resposta = result.body!!
         with(resposta) {
@@ -29,8 +29,8 @@ class ViaCepTest {
         val cidade = "Osasco"
         val rua = "vitorio"
         val formato = "json"
-        val result = template.getForEntity(url, emptyArray<RespostaCep>().javaClass, uf, cidade, rua, formato)
-        assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
+        val result = template.getForEntity(url, Array<RespostaCep>::class.java, uf, cidade, rua, formato)
+        assertThat(result.statusCode).isEqualTo(OK)
         assertThat(result.body).isNotNull
         val resposta = result.body!!
 
@@ -53,8 +53,8 @@ class ViaCepTest {
         val cidade = "Osasco"
         val rua = "vitorio tafa"
         val formato = "json"
-        val result = template.getForEntity(url, emptyArray<RespostaCep>().javaClass, uf, cidade, rua, formato)
-        assertThat(result.statusCode).isEqualTo(HttpStatus.OK)
+        val result = template.getForEntity(url, Array<RespostaCep>::class.java, uf, cidade, rua, formato)
+        assertThat(result.statusCode).isEqualTo(OK)
         assertThat(result.body).isNotNull
         val resposta = result.body!![0]
 
