@@ -56,7 +56,7 @@ subprojects {
 //        compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
 //        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}")
 //        compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-        compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-        compile('org.apache.commons:commons-lang3:3.7')
+        implementation('com.fasterxml.jackson.module:jackson-module-kotlin')
+        implementation('org.apache.commons:commons-lang3:3.7')
     }
 }

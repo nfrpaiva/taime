@@ -4,9 +4,9 @@ plugins { id 'io.spring.dependency-management'}
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile("com.h2database:h2:1.4.191")
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation("com.h2database:h2:1.4.191")
 }
 dependencyManagement{
     imports {
