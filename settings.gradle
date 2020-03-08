@@ -1,2 +1,3 @@
+rootProject.name = 'Taime application Solution'
 include 'taime-webapi'
 include 'taime-domain'
