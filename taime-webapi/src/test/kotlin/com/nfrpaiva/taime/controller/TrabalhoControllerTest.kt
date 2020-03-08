@@ -42,11 +42,11 @@ class TrabalhoControllerTest {
         val trabalho = trabalho()
         BDDMockito.`when`(trabalhoService.criarTrabalho(TrabalhoCommand(trabalho.nome, trabalho.cliente.id))).thenReturn(trabalho)
         val result = mockMvc.perform(put("/trabalho")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(trabalho.toDTO().json(objectMapper)))
                 .andExpect(status().is2xxSuccessful)
-                .andDo(print()).andReturn().request.contentAsString
+                .andDo(print()).andReturn().response.contentAsString
         Assertions.assertThat(trabalho.toDTO().json(objectMapper)).isEqualTo(result)
     }
 
@@ -55,8 +55,8 @@ class TrabalhoControllerTest {
         val trabalho = trabalho()
         BDDMockito.`when`(trabalhoService.criarTrabalho(TrabalhoCommand(trabalho.nome, trabalho.cliente.id))).thenThrow(TaimeException(""))
         mockMvc.perform(put("/trabalho")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError)
                 .andDo(print())
 

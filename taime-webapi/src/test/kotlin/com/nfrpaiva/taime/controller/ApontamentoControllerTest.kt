@@ -41,8 +41,8 @@ class ApontamentoControllerTest {
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenReturn(apontamento)
 
         mockMvc.perform(put("/apontamento").content(dto.json(objectMapper))
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful)
     }
 
@@ -52,8 +52,8 @@ class ApontamentoControllerTest {
         BDDMockito.`when`(apontamentoService.criarApontamento(dto.id, dto.nome, dto.inicio, dto.fim, dto.trabalhoID)).thenThrow(TaimeException("Trabalho não encontrado"))
 
         mockMvc.perform(put("/apontamento").content(dto.json(objectMapper))
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError)
     }
 

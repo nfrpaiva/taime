@@ -55,12 +55,12 @@ class ClienteControllerTest {
         val cliente = cliente()
         BDDMockito.`when`(clienteRepository.save(cliente)).thenReturn(cliente)
         val result = mockMvc.perform(put("/cliente")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(cliente.toDTO().json(objectMapper)))
                 .andExpect(status().is2xxSuccessful)
                 .andDo(print())
-                .andReturn().request.contentAsString
+                .andReturn().response.contentAsString
         Assertions.assertThat(cliente.toDTO().json(objectMapper)).isEqualTo(result)
     }
 
