@@ -2,7 +2,7 @@ FROM openjdk:8
 WORKDIR /src
 COPY . . 
 RUN chmod +x gradlew
-RUN ./gradlew build
+RUN ./gradlew build --no-daemon
 
 FROM openjdk:8
 WORKDIR /app
