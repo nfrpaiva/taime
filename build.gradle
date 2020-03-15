@@ -4,8 +4,7 @@ buildscript {
         springBootVersion = '2.2.5.RELEASE'
     }
     repositories {
-        mavenLocal()
-        jcenter()
+	mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -18,8 +17,8 @@ buildscript {
 subprojects {
 
     repositories {
-	    mavenLocal()
-        jcenter()
+        mavenCentral()
+	jcenter()
     }
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'kotlin'
